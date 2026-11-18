@@ -1,5 +1,20 @@
-// --- 1. CAREER PROFILE & SAVE DATA (IDENTITY, MONEY, UNLOCKS) ---
-let saveData = JSON.parse(localStorage.getItem("apexCareerSave")) || {
+// --- 0. FULLSCREEN & IMMERSIVE MODE HELPER ---
+function enableFullscreen() {
+  try {
+    if (window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.StatusBar) {
+      window.Capacitor.Plugins.StatusBar.hide();
+      window.Capacitor.Plugins.StatusBar.setOverlaysWebView({ overlay: true });
+    }
+    const docEl = document.documentElement;
+    if (docEl.requestFullscreen && !document.fullscreenElement) {
+      docEl.requestFullscreen().catch(() => {});
+    }
+  } catch (e) {}
+}
+document.addEventListener("touchstart", enableFullscreen, { once: true });
+
+// --- 1. CAREER PROFILE & SAVE DATA ---
+let saveData = JSON.parse(localStorage.getItem("apexCareerSaveV2")) || {
   name: "",
   coins: 500,
   xp: 0,
@@ -10,7 +25,7 @@ let saveData = JSON.parse(localStorage.getItem("apexCareerSave")) || {
 
 function persistSave() {
   saveData.level = 1 + Math.floor(saveData.xp / 250);
-  localStorage.setItem("apexCareerSave", JSON.stringify(saveData));
+  localStorage.setItem("apexCareerSaveV2", JSON.stringify(saveData));
   updateIdentityUI();
 }
 
@@ -23,37 +38,35 @@ function updateIdentityUI() {
   document.getElementById("walletCoins").innerText = saveData.coins;
 }
 
-// --- 2. REALISTIC CARS, 3D PEOPLE (CHARACTERS) & LEVEL TRACKS ---
+// --- 2. REALISTIC CARS, CHARACTERS & TRACKS ---
 const CARS = [
-  { name: "TATA CURVV EV", brand: "INDIAN COUPE SUV", type: "suv", price: 0, color: 0xd50000, speed: 1.0, brake: 0.92, steer: 0.24, specs: "240 km/h • Aero EV" },
-  { name: "MAHINDRA THAR ROXX", brand: "INDIAN 4x4 OFFROAD", type: "jeep", price: 400, color: 0x18181c, speed: 1.04, brake: 0.90, steer: 0.24, specs: "220 km/h • 4x4 Beast" },
+  { name: "TATA CURVV EV", brand: "INDIAN COUPE SUV", type: "suv", price: 0, color: 0xd50000, speed: 1.0, brake: 0.92, steer: 0.24, specs: "240 km/h • Aero Electric" },
+  { name: "MAHINDRA THAR ROXX", brand: "INDIAN 4x4 OFFROAD", type: "jeep", price: 400, color: 0x18181c, speed: 1.04, brake: 0.90, steer: 0.24, specs: "220 km/h • 4x4 Torque" },
   { name: "BMW M4 COMPETITION", brand: "GERMAN M-POWER", type: "coupe", price: 900, color: 0x0066ff, speed: 1.10, brake: 0.86, steer: 0.26, specs: "310 km/h • Twin-Turbo" },
-  { name: "TESLA CYBERTRUCK", brand: "AMERICAN ELECTRIC", type: "cyber", price: 1400, color: 0xb0bec5, speed: 1.12, brake: 0.88, steer: 0.23, specs: "290 km/h • Steel Armor" },
-  { name: "FORD MUSTANG GT", brand: "AMERICAN MUSCLE", type: "muscle", price: 2000, color: 0xff6d00, speed: 1.15, brake: 0.87, steer: 0.25, specs: "305 km/h • 5.0L V8" },
+  { name: "TESLA CYBERTRUCK", brand: "AMERICAN ELECTRIC", type: "cyber", price: 1400, color: 0xb0bec5, speed: 1.12, brake: 0.88, steer: 0.23, specs: "290 km/h • Exoskeleton Steel" },
+  { name: "FORD MUSTANG GT", brand: "AMERICAN MUSCLE", type: "muscle", price: 2000, color: 0xff6d00, speed: 1.15, brake: 0.87, steer: 0.25, specs: "305 km/h • 5.0L V8 Coyote" },
   { name: "PORSCHE 911 GT3", brand: "GERMAN TRACK ICON", type: "coupe", price: 2800, color: 0xf5f5f7, speed: 1.18, brake: 0.83, steer: 0.28, specs: "330 km/h • Precision Grip" },
   { name: "MERCEDES AMG GT", brand: "GERMAN LUXURY", type: "coupe", price: 3600, color: 0x00c853, speed: 1.20, brake: 0.84, steer: 0.27, specs: "325 km/h • V8 Biturbo" },
-  { name: "NISSAN GT-R NISMO", brand: "JAPANESE LEGEND", type: "coupe", price: 4500, color: 0x757575, speed: 1.22, brake: 0.82, steer: 0.28, specs: "335 km/h • AWD God" },
+  { name: "NISSAN GT-R NISMO", brand: "JAPANESE LEGEND", type: "coupe", price: 4500, color: 0x757575, speed: 1.22, brake: 0.82, steer: 0.28, specs: "335 km/h • AWD Godzilla" },
   { name: "LAMBORGHINI REVUELTO", brand: "ITALIAN HYPERCAR", type: "super", price: 6000, color: 0xffc400, speed: 1.26, brake: 0.80, steer: 0.29, specs: "355 km/h • V12 Hybrid" },
-  { name: "BUGATTI CHIRON SPORT", brand: "FRENCH HYPER-KING", type: "super", price: 8500, color: 0x00b0ff, speed: 1.32, brake: 0.78, steer: 0.30, specs: "420 km/h • W16 Quad" }
+  { name: "BUGATTI CHIRON SPORT", brand: "FRENCH HYPER-KING", type: "super", price: 8500, color: 0x00b0ff, speed: 1.32, brake: 0.78, steer: 0.30, specs: "420 km/h • W16 Quad-Turbo" }
 ];
 
 const PAINT_SWATCHES = [0xd50000, 0x0066ff, 0x18181c, 0xf5f5f7, 0xffc400, 0x00c853, 0xff6d00, 0x90a4ae];
 
-// खरीदने योग्य 3D कैरेक्टर्स (Realistic People Models)
 const CHARACTERS = [
-  { name: "AARAV", role: "ROOKIE DRIVER", price: 0, jacket: 0x1e3a8a, pants: 0x111827, skin: 0xe0ac69, hair: 0x111111, speedBonus: 1.0, coinBonus: 1, bonusText: "स्टैंडर्ड रेसिंग स्किल" },
-  { name: "VIKRAM", role: "HIGHWAY PRO", price: 350, jacket: 0xb91c1c, pants: 0x1f2937, skin: 0xd2996c, hair: 0x1c1917, speedBonus: 1.05, coinBonus: 1, bonusText: "+5% एक्स्ट्रा टॉप स्पीड" },
-  { name: "KABIR", role: "DRIFT SPECIALIST", price: 750, jacket: 0x047857, pants: 0x0f172a, skin: 0xc68642, hair: 0x09090b, speedBonus: 1.03, coinBonus: 2, bonusText: "2x कॉइन कमाई बोनस" },
-  { name: "ROHAN", role: "TURBO ENGINEER", price: 1300, jacket: 0xd97706, pants: 0x18181b, skin: 0xf1c27d, hair: 0x27272a, speedBonus: 1.08, coinBonus: 2, bonusText: "+8% स्पीड & 2x कॉइन्स" },
-  { name: "DEV", role: "APEX CHAMPION", price: 2200, jacket: 0x6d28d9, pants: 0x09090b, skin: 0xe0ac69, hair: 0xfafaf9, speedBonus: 1.12, coinBonus: 3, bonusText: "+12% स्पीड & 3x कॉइन्स" }
+  { name: "AARAV", role: "ROOKIE DRIVER", price: 0, jacket: 0x1e3a8a, pants: 0x111827, skin: 0xe0ac69, hair: 0x111111, speedBonus: 1.0, coinBonus: 1, bonusText: "Perk: Balanced Telemetry & Control" },
+  { name: "VIKRAM", role: "HIGHWAY PRO", price: 350, jacket: 0xb91c1c, pants: 0x1f2937, skin: 0xd2996c, hair: 0x1c1917, speedBonus: 1.05, coinBonus: 1, bonusText: "Perk: +5% Extra Top Speed" },
+  { name: "KABIR", role: "DRIFT SPECIALIST", price: 750, jacket: 0x047857, pants: 0x0f172a, skin: 0xc68642, hair: 0x09090b, speedBonus: 1.03, coinBonus: 2, bonusText: "Perk: 2x Cash Earnings Multiplier" },
+  { name: "ROHAN", role: "TURBO ENGINEER", price: 1300, jacket: 0xd97706, pants: 0x18181b, skin: 0xf1c27d, hair: 0x27272a, speedBonus: 1.08, coinBonus: 2, bonusText: "Perk: +8% Speed & 2x Cash" },
+  { name: "DEV", role: "APEX CHAMPION", price: 2200, jacket: 0x6d28d9, pants: 0x09090b, skin: 0xe0ac69, hair: 0xfafaf9, speedBonus: 1.12, coinBonus: 3, bonusText: "Perk: +12% Speed & 3x Cash" }
 ];
 
-// लेवल के हिसाब से खुलने वाले रोड (Level-Locked Highways)
 const TRACKS = [
-  { name: "Mumbai Coastal Road", reqLevel: 1, sky: 0x5dade2, fog: 0x85c1e9, road: 0x2c3e50, desc: "Level 1 • दिन का हाईवे" },
-  { name: "Delhi-Jaipur Night", reqLevel: 2, sky: 0x090d16, fog: 0x090d16, road: 0x171a24, desc: "Level 2 • नाइट एक्सप्रेसवे" },
-  { name: "Manali Snow Highway", reqLevel: 3, sky: 0xd6eaf8, fog: 0xebf5fb, road: 0x34495e, desc: "Level 3 • बर्फीला पहाड़ी रोड" },
-  { name: "Cyber Tokyo Drift", reqLevel: 4, sky: 0x14052e, fog: 0x1d0842, road: 0x11111a, desc: "Level 4 • फ्यूचर नियॉन ट्रैक" }
+  { name: "Mumbai Coastal Road", reqLevel: 1, sky: 0x5dade2, fog: 0x85c1e9, road: 0x2c3e50, desc: "Level 1 • Daylight Sea Link" },
+  { name: "Delhi-Jaipur Night", reqLevel: 2, sky: 0x090d16, fog: 0x090d16, road: 0x171a24, desc: "Level 2 • Midnight Expressway" },
+  { name: "Manali Snow Highway", reqLevel: 3, sky: 0xd6eaf8, fog: 0xebf5fb, road: 0x34495e, desc: "Level 3 • Alpine Fog & Ice" },
+  { name: "Cyber Tokyo Drift", reqLevel: 4, sky: 0x14052e, fog: 0x1d0842, road: 0x11111a, desc: "Level 4 • Future Neon Metropolis" }
 ];
 
 let selectedCarIdx = 0;
@@ -61,22 +74,123 @@ let selectedPaintHex = CARS[0].color;
 let selectedCharIdx = 0;
 let selectedTrackIdx = 0;
 
-// --- 3. THREE.JS 3D ENGINE ---
-const container = document.getElementById("canvas-wrapper");
-const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera(62, window.innerWidth / window.innerHeight, 0.1, 300);
-const renderer = new THREE.WebGLRenderer({ antialias: true });
-renderer.setSize(window.innerWidth, window.innerHeight);
-renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-container.appendChild(renderer.domElement);
+// --- 3. PROCEDURAL HD TEXTURE GENERATOR (NO EXTERNAL FILES NEEDED) ---
+function createAsphaltTexture() {
+  const c = document.createElement("canvas");
+  c.width = 256;
+  c.height = 256;
+  const ctx = c.getContext("2d");
+  ctx.fillStyle = "#262936";
+  ctx.fillRect(0, 0, 256, 256);
+  for (let i = 0; i < 4000; i++) {
+    const shade = 30 + Math.floor(Math.random() * 25);
+    ctx.fillStyle = `rgb(${shade},${shade},${shade + 6})`;
+    ctx.fillRect(Math.random() * 256, Math.random() * 256, 2, 2);
+  }
+  const tex = new THREE.CanvasTexture(c);
+  tex.wrapS = THREE.RepeatWrapping;
+  tex.wrapT = THREE.RepeatWrapping;
+  tex.repeat.set(4, 40);
+  return tex;
+}
 
-const hemiLight = new THREE.HemisphereLight(0xffffff, 0x222233, 1.05);
-scene.add(hemiLight);
-const dirLight = new THREE.DirectionalLight(0xffffff, 1.3);
-dirLight.position.set(18, 35, 22);
-scene.add(dirLight);
+function createBuildingTexture() {
+  const c = document.createElement("canvas");
+  c.width = 128;
+  c.height = 256;
+  const ctx = c.getContext("2d");
+  ctx.fillStyle = "#0f172a";
+  ctx.fillRect(0, 0, 128, 256);
+  for (let y = 12; y < 245; y += 22) {
+    for (let x = 10; x < 115; x += 22) {
+      ctx.fillStyle = Math.random() > 0.35 ? "#38bdf8" : "#1e293b";
+      ctx.fillRect(x, y, 12, 12);
+    }
+  }
+  return new THREE.CanvasTexture(c);
+}
 
-// --- 4. REALISTIC 3D HUMAN CHARACTER BUILDER ---
+// --- 4. INITIALIZE 3D WORLD & STARTUP ---
+let scene, camera, renderer, hemiLight, playerCar, showroomPerson, roadMat;
+let roadLines = [], envProps = [];
+
+function init3DEngine() {
+  const container = document.getElementById("canvas-wrapper");
+  scene = new THREE.Scene();
+  camera = new THREE.PerspectiveCamera(62, window.innerWidth / window.innerHeight, 0.1, 300);
+  renderer = new THREE.WebGLRenderer({ antialias: true, powerPreference: "high-performance" });
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  container.appendChild(renderer.domElement);
+
+  hemiLight = new THREE.HemisphereLight(0xffffff, 0x222233, 1.1);
+  scene.add(hemiLight);
+  const dirLight = new THREE.DirectionalLight(0xffffff, 1.35);
+  dirLight.position.set(18, 35, 22);
+  scene.add(dirLight);
+
+  // HD Asphalt Road
+  roadMat = new THREE.MeshStandardMaterial({ map: createAsphaltTexture(), roughness: 0.85 });
+  const road = new THREE.Mesh(new THREE.PlaneGeometry(14, 320), roadMat);
+  road.rotation.x = -Math.PI / 2;
+  road.position.z = -130;
+  scene.add(road);
+
+  // Sidewalks
+  const walkMat = new THREE.MeshStandardMaterial({ color: 0x475569 });
+  const leftWalk = new THREE.Mesh(new THREE.BoxGeometry(6, 0.3, 320), walkMat);
+  leftWalk.position.set(-10, 0.15, -130);
+  const rightWalk = leftWalk.clone();
+  rightWalk.position.x = 10;
+  scene.add(leftWalk, rightWalk);
+
+  // Road Lane Markings
+  for (let z = 15; z > -240; z -= 11) {
+    [-2.35, 2.35].forEach(lx => {
+      const l = new THREE.Mesh(new THREE.BoxGeometry(0.22, 0.04, 3.5), new THREE.MeshBasicMaterial({ color: 0xffffff }));
+      l.position.set(lx, 0.03, z);
+      scene.add(l);
+      roadLines.push(l);
+    });
+  }
+
+  // City Buildings with Lit Windows & Trees
+  const bTex = createBuildingTexture();
+  const bMat = new THREE.MeshStandardMaterial({ map: bTex, roughness: 0.4 });
+  for (let z = 0; z > -240; z -= 16) {
+    [-1, 1].forEach(side => {
+      const tree = new THREE.Group();
+      const trunk = new THREE.Mesh(new THREE.CylinderGeometry(0.2, 0.3, 2), new THREE.MeshStandardMaterial({ color: 0x4e342e }));
+      trunk.position.y = 1;
+      const crown = new THREE.Mesh(new THREE.DodecahedronGeometry(1.5), new THREE.MeshStandardMaterial({ color: 0x2e7d32 }));
+      crown.position.y = 2.8;
+      tree.add(trunk, crown);
+      tree.position.set(side * 9.5, 0.3, z);
+      scene.add(tree);
+      envProps.push(tree);
+
+      const h = 14 + Math.random() * 24;
+      const b = new THREE.Mesh(new THREE.BoxGeometry(7, h, 9), bMat);
+      b.position.set(side * 16.5, h / 2, z);
+      scene.add(b);
+      envProps.push(b);
+    });
+  }
+
+  playerCar = buildRealisticCar(CARS[0], selectedPaintHex, true);
+  scene.add(playerCar);
+
+  showroomPerson = build3DPerson(CHARACTERS[0]);
+  showroomPerson.position.set(-1.65, 0, 0.4);
+  scene.add(showroomPerson);
+
+  window.addEventListener("resize", () => {
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+  });
+}
+
 function build3DPerson(charData) {
   const person = new THREE.Group();
   const skinMat = new THREE.MeshStandardMaterial({ color: charData.skin, roughness: 0.5 });
@@ -84,7 +198,6 @@ function build3DPerson(charData) {
   const pantsMat = new THREE.MeshStandardMaterial({ color: charData.pants, roughness: 0.7 });
   const hairMat = new THREE.MeshStandardMaterial({ color: charData.hair, roughness: 0.8 });
 
-  // जूते और पैर
   [-0.14, 0.14].forEach(lx => {
     const leg = new THREE.Mesh(new THREE.BoxGeometry(0.18, 0.78, 0.2), pantsMat);
     leg.position.set(lx, 0.42, 0);
@@ -93,24 +206,20 @@ function build3DPerson(charData) {
     person.add(leg, shoe);
   });
 
-  // जैकेट / धड़
   const torso = new THREE.Mesh(new THREE.BoxGeometry(0.52, 0.72, 0.28), jacketMat);
   torso.position.y = 1.16;
   person.add(torso);
 
-  // हाथ
   [-0.35, 0.35].forEach(ax => {
     const arm = new THREE.Mesh(new THREE.BoxGeometry(0.15, 0.65, 0.16), jacketMat);
     arm.position.set(ax, 1.15, 0);
     person.add(arm);
   });
 
-  // सिर और बाल
   const head = new THREE.Mesh(new THREE.SphereGeometry(0.22, 16, 16), skinMat);
   head.position.y = 1.74;
   const hair = new THREE.Mesh(new THREE.SphereGeometry(0.23, 16, 16, 0, Math.PI * 2, 0, Math.PI / 2), hairMat);
   hair.position.y = 1.76;
-  // काला चश्मा (Sunglasses)
   const glasses = new THREE.Mesh(new THREE.BoxGeometry(0.32, 0.07, 0.1), new THREE.MeshBasicMaterial({ color: 0x000000 }));
   glasses.position.set(0, 1.75, 0.19);
 
@@ -118,7 +227,6 @@ function build3DPerson(charData) {
   return person;
 }
 
-// --- 5. REALISTIC 3D CAR BUILDER ---
 function buildRealisticCar(carData, paintHex, isPlayer = false) {
   const car = new THREE.Group();
   const paintMat = new THREE.MeshStandardMaterial({ color: paintHex, metalness: 0.78, roughness: 0.18 });
@@ -152,7 +260,6 @@ function buildRealisticCar(carData, paintHex, isPlayer = false) {
     car.add(chassis, hood, cabin, roof);
   }
 
-  // फ्रंट ग्रिल और साइड मिरर
   const grill = new THREE.Mesh(new THREE.BoxGeometry(1.25, 0.26, 0.12), trimMat);
   grill.position.set(0, 0.48, isPlayer ? -2.16 : 2.16);
   car.add(grill);
@@ -163,7 +270,6 @@ function buildRealisticCar(carData, paintHex, isPlayer = false) {
     car.add(mirror);
   });
 
-  // 4 पहिये
   const tireGeo = new THREE.CylinderGeometry(0.45, 0.45, 0.36, 20);
   const rimGeo = new THREE.CylinderGeometry(0.28, 0.28, 0.38, 12);
   const rimMat = new THREE.MeshStandardMaterial({ color: 0xe2e8f0, metalness: 0.9, roughness: 0.2 });
@@ -181,7 +287,6 @@ function buildRealisticCar(carData, paintHex, isPlayer = false) {
     car.wheels.push(wg);
   });
 
-  // हेडलाइट्स और रियलिस्टिक ब्रेक लाइट्स
   const lGeo = new THREE.BoxGeometry(0.45, 0.14, 0.1);
   const headMat = new THREE.MeshBasicMaterial({ color: 0xffffff });
   car.tailLights = [];
@@ -199,90 +304,55 @@ function buildRealisticCar(carData, paintHex, isPlayer = false) {
   return car;
 }
 
-let playerCar = buildRealisticCar(CARS[0], selectedPaintHex, true);
-scene.add(playerCar);
-
-let showroomPerson = build3DPerson(CHARACTERS[0]);
-showroomPerson.position.set(-1.65, 0, 0.4);
-scene.add(showroomPerson);
-
-// --- 6. ROAD & ENVIRONMENT ---
-const roadMat = new THREE.MeshStandardMaterial({ color: 0x2c3e50, roughness: 0.85 });
-const road = new THREE.Mesh(new THREE.PlaneGeometry(14, 320), roadMat);
-road.rotation.x = -Math.PI / 2;
-road.position.z = -130;
-scene.add(road);
-
-const walkMat = new THREE.MeshStandardMaterial({ color: 0x475569 });
-const leftWalk = new THREE.Mesh(new THREE.BoxGeometry(6, 0.3, 320), walkMat);
-leftWalk.position.set(-10, 0.15, -130);
-const rightWalk = leftWalk.clone();
-rightWalk.position.x = 10;
-scene.add(leftWalk, rightWalk);
-
-const roadLines = [];
-for (let z = 15; z > -240; z -= 11) {
-  [-2.35, 2.35].forEach(lx => {
-    const l = new THREE.Mesh(new THREE.BoxGeometry(0.22, 0.04, 3.5), new THREE.MeshBasicMaterial({ color: 0xffffff }));
-    l.position.set(lx, 0.03, z);
-    scene.add(l);
-    roadLines.push(l);
-  });
-}
-
-const envProps = [];
-for (let z = 0; z > -240; z -= 16) {
-  [-1, 1].forEach(side => {
-    const tree = new THREE.Group();
-    const trunk = new THREE.Mesh(new THREE.CylinderGeometry(0.2, 0.3, 2), new THREE.MeshStandardMaterial({ color: 0x4e342e }));
-    trunk.position.y = 1;
-    const crown = new THREE.Mesh(new THREE.DodecahedronGeometry(1.5), new THREE.MeshStandardMaterial({ color: 0x2e7d32 }));
-    crown.position.y = 2.8;
-    tree.add(trunk, crown);
-    tree.position.set(side * 9.5, 0.3, z);
-    scene.add(tree);
-    envProps.push(tree);
-
-    const h = 12 + Math.random() * 20;
-    const b = new THREE.Mesh(new THREE.BoxGeometry(7, h, 9), new THREE.MeshStandardMaterial({ color: 0x1e293b }));
-    b.position.set(side * 16.5, h / 2, z);
-    scene.add(b);
-    envProps.push(b);
-  });
-}
-
 function applyTrackTheme(idx) {
   const t = TRACKS[idx];
   scene.background = new THREE.Color(t.sky);
   scene.fog = new THREE.FogExp2(t.fog, 0.011);
   roadMat.color.setHex(t.road);
-  hemiLight.intensity = idx === 1 || idx === 3 ? 0.45 : 1.1;
+  hemiLight.intensity = idx === 1 || idx === 3 ? 0.5 : 1.15;
 }
 
-// --- 7. PAGE NAVIGATION & STORE LOGIC ---
+// --- 5. GUARANTEED LOADER & PAGE NAVIGATION ---
 function switchPage(id) {
   document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
   document.getElementById(id).classList.add("active");
 }
 
-// PAGE 1: LOADING & NAME IDENTITY
 let pct = 0;
-const timer = setInterval(() => {
+const loadMsgs = [
+  "Initializing 3D Shaders & Procedural Textures...",
+  "Loading 10 Realistic Car Models...",
+  "Preparing Highway Environments...",
+  "Showroom Ready!"
+];
+
+const bootInterval = setInterval(() => {
   pct += 10;
   document.getElementById("barFill").style.width = pct + "%";
   document.getElementById("barPct").innerText = pct + "%";
+  document.getElementById("loadText").innerText = loadMsgs[Math.min(3, Math.floor(pct / 26))];
+
   if (pct >= 100) {
-    clearInterval(timer);
+    clearInterval(bootInterval);
+    if (typeof THREE !== "undefined") {
+      init3DEngine();
+      animate();
+    } else {
+      document.getElementById("loadText").innerText = "Error: 3D Engine failed to load. Please check connection.";
+      return;
+    }
+
     if (saveData.name) {
       enterShowroom();
     } else {
-      document.getElementById("loadText").innerText = "अपनी ड्राइवर पहचान बनाएं:";
+      document.getElementById("loadText").innerText = "Create Your Driver Identity:";
       document.getElementById("nameSetupBox").classList.remove("hidden");
     }
   }
 }, 90);
 
 function enterShowroom() {
+  enableFullscreen();
   updateIdentityUI();
   document.getElementById("identity-header").classList.remove("hidden");
   applyTrackTheme(0);
@@ -297,7 +367,7 @@ document.getElementById("enterGarageBtn").addEventListener("click", () => {
   enterShowroom();
 });
 
-// PAGE 2: CAR SHOWROOM
+// --- 6. GARAGE, CHARACTER & TRACK CONTROLS ---
 function refreshGarageUI() {
   const c = CARS[selectedCarIdx];
   const isUnlocked = saveData.unlockedCars.includes(selectedCarIdx);
@@ -308,10 +378,10 @@ function refreshGarageUI() {
   const btn = document.getElementById("carActionBtn");
   if (isUnlocked) {
     btn.className = "btn-primary";
-    btn.innerText = "चुनें और आगे बढ़ें ➔";
+    btn.innerText = "SELECT & CONTINUE ➔";
   } else {
     btn.className = "btn-buy";
-    btn.innerText = `💰 खरीदें (₹${c.price})`;
+    btn.innerText = `💰 BUY VEHICLE ($${c.price})`;
   }
 
   scene.remove(playerCar);
@@ -355,11 +425,10 @@ document.getElementById("carActionBtn").addEventListener("click", () => {
     persistSave();
     refreshGarageUI();
   } else {
-    alert(`पर्याप्त पैसे नहीं हैं! इस कार के लिए ₹${c.price} चाहिए। रेस करके पैसे कमाएं!`);
+    alert(`Insufficient funds! You need $${c.price} to buy this car. Race to earn more cash!`);
   }
 });
 
-// PAGE 3: 3D CHARACTER STORE
 function refreshCharacterUI() {
   const ch = CHARACTERS[selectedCharIdx];
   const isUnlocked = saveData.unlockedChars.includes(selectedCharIdx);
@@ -370,10 +439,10 @@ function refreshCharacterUI() {
   const btn = document.getElementById("charActionBtn");
   if (isUnlocked) {
     btn.className = "btn-primary";
-    btn.innerText = "इस कैरेक्टर से आगे बढ़ें ➔";
+    btn.innerText = "CONFIRM DRIVER ➔";
   } else {
     btn.className = "btn-buy";
-    btn.innerText = `💰 कैरेक्टर खरीदें (₹${ch.price})`;
+    btn.innerText = `💰 HIRE DRIVER ($${ch.price})`;
   }
 
   scene.remove(showroomPerson);
@@ -403,80 +472,9 @@ document.getElementById("charActionBtn").addEventListener("click", () => {
     persistSave();
     refreshCharacterUI();
   } else {
-    alert(`इस कैरेक्टर के लिए ₹${ch.price} चाहिए!`);
+    alert(`Insufficient funds! You need $${ch.price} to unlock this driver.`);
   }
 });
 
-// PAGE 4: LEVEL-LOCKED TRACKS
 function renderTrackCards() {
-  const grid = document.getElementById("trackList");
-  grid.innerHTML = "";
-  TRACKS.forEach((t, idx) => {
-    const locked = saveData.level < t.reqLevel;
-    const card = document.createElement("div");
-    card.className = "track-card" + (idx === selectedTrackIdx ? " selected" : "") + (locked ? " locked" : "");
-    card.innerHTML = `
-      ${locked ? `<span class="lock-badge">🔒 LVL ${t.reqLevel}</span>` : ""}
-      <h3>${t.name}</h3>
-      <p style="font-size:11px;color:#cbd5e1;margin-top:4px;">${t.desc}</p>
-    `;
-    card.addEventListener("click", () => {
-      if (locked) {
-        alert(`यह रोड Level ${t.reqLevel} पर खुलेगा! अभी आपका Level ${saveData.level} है।`);
-        return;
-      }
-      selectedTrackIdx = idx;
-      applyTrackTheme(idx);
-      renderTrackCards();
-    });
-    grid.appendChild(card);
-  });
-}
-
-document.getElementById("backChar").addEventListener("click", () => switchPage("page-character"));
-
-// --- 8. PAGE 5: REALISTIC DRIVING PHYSICS (GAS, BRAKE, NITRO) ---
-let gameRunning = false;
-let distance = 0;
-let raceCoins = 0;
-let currentSpeed = 0.85;
-let braking = false;
-let nitro = false;
-let hoodCam = false;
-let targetX = 0;
-let enemies = [];
-let coinMeshes = [];
-const lanes = [-4.6, 0, 4.6];
-let keys = { left: false, right: false };
-
-const bindHold = (id, downFn, upFn) => {
-  const el = document.getElementById(id);
-  el.addEventListener("touchstart", e => { e.preventDefault(); downFn(); });
-  el.addEventListener("touchend", e => { e.preventDefault(); upFn(); });
-  el.addEventListener("mousedown", downFn);
-  el.addEventListener("mouseup", upFn);
-};
-bindHold("leftBtn", () => keys.left = true, () => keys.left = false);
-bindHold("rightBtn", () => keys.right = true, () => keys.right = false);
-bindHold("brakeBtn", () => braking = true, () => braking = false);
-bindHold("nitroBtn", () => nitro = true, () => nitro = false);
-document.getElementById("camSwitchBtn").addEventListener("click", () => { hoodCam = !hoodCam; });
-
-function launchRace() {
-  distance = 0;
-  raceCoins = 0;
-  currentSpeed = 0.85;
-  targetX = 0;
-  playerCar.position.set(0, 0, 0);
-  playerCar.rotation.set(0, 0, 0);
-  showroomPerson.visible = false;
-
-  enemies.forEach(e => scene.remove(e));
-  coinMeshes.forEach(c => scene.remove(c));
-  enemies = [];
-  coinMeshes = [];
-
-  document.getElementById("resultModal").classList.add("hidden");
-  applyTrackTheme(selectedTrackIdx);
-  switchPage("page-race");
-   
+  const gr
