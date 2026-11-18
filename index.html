@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Neon Turbo Racer</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="game-container">
+    <!-- ऊपर का स्कोरबोर्ड (HUD) -->
+    <div id="hud">
+      <div>स्कोर: <span id="score">0</span></div>
+      <div>लेवल: <span id="level">1</span></div>
+      <div>कॉइन्स: <span id="coins">0</span></div>
+    </div>
+
+    <!-- गेम स्क्रीन -->
+    <canvas id="gameCanvas"></canvas>
+
+    <!-- मोबाइल टच कंट्रोल्स -->
+    <div id="controls">
+      <button id="leftBtn">◀</button>
+      <button id="nitroBtn">🔥 NITRO</button>
+      <button id="rightBtn">▶</button>
+    </div>
+
+    <!-- स्टार्ट और गेम ओवर स्क्रीन -->
+    <div id="overlay">
+      <h1 id="title">NEON RACER</h1>
+      <p id="highScoreText">बेस्ट स्कोर: 0</p>
+      <p id="finalScore">ट्रैफिक से बचें और कॉइन्स इकट्ठा करें!</p>
+      <button id="startBtn">गेम शुरू करें</button>
+    </div>
+  </div>
+
+  <script src="game.js"></script>
+</body>
+</html>
