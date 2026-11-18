@@ -3,20 +3,26 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Neon Turbo Racer</title>
+  <title>Cyber 3D Turbo Racer</title>
   <link rel="stylesheet" href="style.css">
+  <!-- Three.js 3D Engine -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 </head>
 <body>
   <div id="game-container">
-    <!-- ऊपर का स्कोरबोर्ड (HUD) -->
+    <!-- ऊपर का 3D HUD -->
     <div id="hud">
-      <div>स्कोर: <span id="score">0</span></div>
-      <div>लेवल: <span id="level">1</span></div>
-      <div>कॉइन्स: <span id="coins">0</span></div>
+      <div class="stat-box">स्कोर<br><span id="score">0</span></div>
+      <div class="stat-box">लेवल<br><span id="level">1</span></div>
+      <div class="stat-box">कॉइन्स<br><span id="coins">0</span></div>
+      <div class="stat-box">स्पीड<br><span id="speed">120</span></div>
     </div>
 
-    <!-- गेम स्क्रीन -->
-    <canvas id="gameCanvas"></canvas>
+    <!-- लेवल अप नोटिफिकेशन -->
+    <div id="levelBanner">LEVEL 2 - SUNSET RUSH!</div>
+
+    <!-- 3D कैनवास यहाँ रेंडर होगा -->
+    <div id="canvas-wrapper"></div>
 
     <!-- मोबाइल टच कंट्रोल्स -->
     <div id="controls">
@@ -25,12 +31,13 @@
       <button id="rightBtn">▶</button>
     </div>
 
-    <!-- स्टार्ट और गेम ओवर स्क्रीन -->
+    <!-- स्टार्ट / गेम ओवर स्क्रीन -->
     <div id="overlay">
-      <h1 id="title">NEON RACER</h1>
-      <p id="highScoreText">बेस्ट स्कोर: 0</p>
-      <p id="finalScore">ट्रैफिक से बचें और कॉइन्स इकट्ठा करें!</p>
-      <button id="startBtn">गेम शुरू करें</button>
+      <div class="badge">3D EDITION</div>
+      <h1 id="title">CYBER RACER 3D</h1>
+      <p id="highScoreText">🏆 बेस्ट स्कोर: 0</p>
+      <p id="finalScore">3D हाईवे पर ट्रैफिक को चकमा दें और लेवल पार करें!</p>
+      <button id="startBtn">रेस शुरू करें</button>
     </div>
   </div>
 
