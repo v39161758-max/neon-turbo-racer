@@ -3,43 +3,108 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Cyber 3D Turbo Racer</title>
+  <title>APEX LEGENDS 3D: Real Car Simulator</title>
   <link rel="stylesheet" href="style.css">
-  <!-- Three.js 3D Engine -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 </head>
 <body>
-  <div id="game-container">
-    <!-- ऊपर का 3D HUD -->
-    <div id="hud">
-      <div class="stat-box">स्कोर<br><span id="score">0</span></div>
-      <div class="stat-box">लेवल<br><span id="level">1</span></div>
-      <div class="stat-box">कॉइन्स<br><span id="coins">0</span></div>
-      <div class="stat-box">स्पीड<br><span id="speed">120</span></div>
+  <!-- पीछे हमेशा चलने वाला 3D वर्ल्ड (शोरूम और ट्रैक दोनों के लिए) -->
+  <div id="canvas-wrapper"></div>
+
+  <!-- PAGE 1: LOADING SCREEN -->
+  <section id="page-loading" class="screen active">
+    <div class="loader-content">
+      <div class="brand-tag">REALISTIC 3D ENGINE</div>
+      <h1>APEX LEGENDS <span>3D</span></h1>
+      <p id="loading-status">3D शेडर्स और कार मॉडल्स लोड हो रहे हैं...</p>
+      <div class="progress-bar-bg">
+        <div id="progress-fill"></div>
+      </div>
+      <div id="progress-percent">0%</div>
+    </div>
+  </section>
+
+  <!-- PAGE 2: CAR & COLOR GARAGE -->
+  <section id="page-garage" class="screen">
+    <div class="top-bar">
+      <span class="step-badge">STEP 1 / 3 : GARAGE</span>
+      <span class="best-badge" id="garageHighScore">🏆 BEST: 0</span>
     </div>
 
-    <!-- लेवल अप नोटिफिकेशन -->
-    <div id="levelBanner">LEVEL 2 - SUNSET RUSH!</div>
+    <div class="garage-bottom-panel">
+      <div class="car-selector-row">
+        <button id="prevCar" class="circle-btn">◀</button>
+        <div class="car-title-box">
+          <span id="carBrand" class="brand-pill">GERMAN SPORT</span>
+          <h2 id="carName">BMW M4 GTS</h2>
+          <p id="carSpecs">Top Speed: 310 km/h • Handling: 92%</p>
+        </div>
+        <button id="nextCar" class="circle-btn">▶</button>
+      </div>
 
-    <!-- 3D कैनवास यहाँ रेंडर होगा -->
-    <div id="canvas-wrapper"></div>
+      <!-- अलग से कलर सेलेक्टर पैलेट -->
+      <div class="color-picker-box">
+        <label>मेटैलिक पेंट चुनें (Car Color):</label>
+        <div id="colorSwatches" class="swatches"></div>
+      </div>
 
-    <!-- मोबाइल टच कंट्रोल्स -->
+      <button id="toDriverBtn" class="primary-btn">अगला: ड्राइवर चुनें ➔</button>
+    </div>
+  </section>
+
+  <!-- PAGE 3: DRIVER SELECTION PAGE -->
+  <section id="page-driver" class="screen">
+    <div class="top-bar">
+      <button id="backToGarage" class="back-btn">⬅ गैराज</button>
+      <span class="step-badge">STEP 2 / 3 : DRIVER</span>
+    </div>
+
+    <div class="panel-center">
+      <h2>अपना प्रो-ड्राइवर चुनें</h2>
+      <div id="driverGrid" class="cards-grid"></div>
+      <button id="toTrackBtn" class="primary-btn">अगला: रोड / ट्रैक चुनें ➔</button>
+    </div>
+  </section>
+
+  <!-- PAGE 4: ROAD & LEVEL SELECTION PAGE -->
+  <section id="page-track" class="screen">
+    <div class="top-bar">
+      <button id="backToDriver" class="back-btn">⬅ ड्राइवर</button>
+      <span class="step-badge">STEP 3 / 3 : TRACK</span>
+    </div>
+
+    <div class="panel-center">
+      <h2>रोड और मौसम चुनें</h2>
+      <div id="trackGrid" class="cards-grid"></div>
+      <button id="startRaceBtn" class="start-race-btn">🏁 रेस शुरू करें</button>
+    </div>
+  </section>
+
+  <!-- PAGE 5: LIVE 3D RACING HUD -->
+  <section id="page-race" class="screen">
+    <div id="hud">
+      <div class="hud-item">SCORE<br><span id="score">0</span></div>
+      <div class="hud-item">COINS<br><span id="coins">0</span></div>
+      <div class="hud-item">SPEED<br><span id="speed">0</span> km/h</div>
+      <button id="camBtn" class="hud-cam">📷</button>
+    </div>
+
     <div id="controls">
       <button id="leftBtn">◀</button>
       <button id="nitroBtn">🔥 NITRO</button>
       <button id="rightBtn">▶</button>
     </div>
 
-    <!-- स्टार्ट / गेम ओवर स्क्रीन -->
-    <div id="overlay">
-      <div class="badge">3D EDITION</div>
-      <h1 id="title">CYBER RACER 3D</h1>
-      <p id="highScoreText">🏆 बेस्ट स्कोर: 0</p>
-      <p id="finalScore">3D हाईवे पर ट्रैफिक को चकमा दें और लेवल पार करें!</p>
-      <button id="startBtn">रेस शुरू करें</button>
+    <!-- GAME OVER POPUP -->
+    <div id="gameover-modal" class="hidden">
+      <h1>CRASHED!</h1>
+      <p id="finalStats">Score: 0 | Coins: 0</p>
+      <div class="modal-btns">
+        <button id="retryBtn" class="primary-btn">फिर से रेस करें</button>
+        <button id="menuBtn" class="back-btn">गैराज में जाएं</button>
+      </div>
     </div>
-  </div>
+  </section>
 
   <script src="game.js"></script>
 </body>
