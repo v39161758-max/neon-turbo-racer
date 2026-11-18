@@ -24,12 +24,13 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-      - name: Prepare Web Files & Capacitor
+      - name: Install & Bundle Offline 3D Engine
         run: |
+          npm install
           mkdir -p www
           cp index.html style.css game.js www/
-          npm install
-          npx cap init "Neon Racer" "com.vishal.neonracer" --web-dir=www
+          cp node_modules/three/build/three.min.js www/three.min.js
+          npx cap init "Apex Drive 3D" "com.vishal.apexdrive3d" --web-dir=www
           npx cap add android
 
       - name: Build Debug APK
@@ -41,5 +42,6 @@ jobs:
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
-          name: Neon-Racer-APK
+          name: Apex-Drive-3D-Pro-APK
           path: android/app/build/outputs/apk/debug/app-debug.apk
+          
