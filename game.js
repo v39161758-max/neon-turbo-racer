@@ -1,5 +1,5 @@
 // --- 1. CAREER PROFILE & SAVE DATA ---
-let saveData = JSON.parse(localStorage.getItem("apexCareerSaveV4")) || {
+let saveData = JSON.parse(localStorage.getItem("apexCareerSaveV6")) || {
   name: "VISHAL",
   coins: 500,
   xp: 0,
@@ -10,7 +10,7 @@ let saveData = JSON.parse(localStorage.getItem("apexCareerSaveV4")) || {
 
 function persistSave() {
   saveData.level = 1 + Math.floor(saveData.xp / 250);
-  localStorage.setItem("apexCareerSaveV4", JSON.stringify(saveData));
+  localStorage.setItem("apexCareerSaveV6", JSON.stringify(saveData));
   updateIdentityUI();
 }
 
@@ -33,33 +33,33 @@ document.getElementById("editNameChip").addEventListener("click", () => {
 
 // --- 2. CARS, CHARACTERS & TRACKS ---
 const CARS = [
-  { name: "TATA CURVV EV", brand: "INDIAN COUPE SUV", type: "suv", price: 0, color: 0xd50000, speed: 1.0, steer: 0.24, specs: "240 km/h • Aero Electric" },
-  { name: "MAHINDRA THAR ROXX", brand: "INDIAN 4x4 OFFROAD", type: "jeep", price: 400, color: 0x18181c, speed: 1.04, steer: 0.24, specs: "220 km/h • 4x4 Torque" },
-  { name: "BMW M4 COMPETITION", brand: "GERMAN M-POWER", type: "coupe", price: 900, color: 0x0066ff, speed: 1.10, steer: 0.26, specs: "310 km/h • Twin-Turbo" },
-  { name: "TESLA CYBERTRUCK", brand: "AMERICAN ELECTRIC", type: "cyber", price: 1400, color: 0xb0bec5, speed: 1.12, steer: 0.23, specs: "290 km/h • Steel Armor" },
-  { name: "FORD MUSTANG GT", brand: "AMERICAN MUSCLE", type: "muscle", price: 2000, color: 0xff6d00, speed: 1.15, steer: 0.25, specs: "305 km/h • 5.0L V8" },
-  { name: "PORSCHE 911 GT3", brand: "GERMAN TRACK ICON", type: "coupe", price: 2800, color: 0xf5f5f7, speed: 1.18, steer: 0.28, specs: "330 km/h • Precision Grip" },
-  { name: "MERCEDES AMG GT", brand: "GERMAN LUXURY", type: "coupe", price: 3600, color: 0x00c853, speed: 1.20, steer: 0.27, specs: "325 km/h • V8 Biturbo" },
-  { name: "NISSAN GT-R NISMO", brand: "JAPANESE LEGEND", type: "coupe", price: 4500, color: 0x757575, speed: 1.22, steer: 0.28, specs: "335 km/h • AWD Godzilla" },
-  { name: "LAMBORGHINI REVUELTO", brand: "ITALIAN HYPERCAR", type: "super", price: 6000, color: 0xffc400, speed: 1.26, steer: 0.29, specs: "355 km/h • V12 Hybrid" },
-  { name: "BUGATTI CHIRON SPORT", brand: "FRENCH HYPER-KING", type: "super", price: 8500, color: 0x00b0ff, speed: 1.32, steer: 0.30, specs: "420 km/h • W16 Quad" }
+  { name: "TATA CURVV EV", brand: "INDIAN COUPE SUV", type: "suv", price: 0, color: "#d50000", speed: 1.0, steer: 14, specs: "240 km/h • Aero Electric" },
+  { name: "MAHINDRA THAR ROXX", brand: "INDIAN 4x4 OFFROAD", type: "jeep", price: 400, color: "#212121", speed: 1.05, steer: 14, specs: "220 km/h • 4x4 Torque" },
+  { name: "BMW M4 COMPETITION", brand: "GERMAN M-POWER", type: "coupe", price: 900, color: "#0066ff", speed: 1.12, steer: 16, specs: "310 km/h • Twin-Turbo" },
+  { name: "TESLA CYBERTRUCK", brand: "AMERICAN ELECTRIC", type: "cyber", price: 1400, color: "#90a4ae", speed: 1.14, steer: 13, specs: "290 km/h • Steel Armor" },
+  { name: "FORD MUSTANG GT", brand: "AMERICAN MUSCLE", type: "muscle", price: 2000, color: "#ff6d00", speed: 1.18, steer: 15, specs: "305 km/h • 5.0L V8" },
+  { name: "PORSCHE 911 GT3", brand: "GERMAN TRACK ICON", type: "coupe", price: 2800, color: "#f5f5f7", speed: 1.22, steer: 17, specs: "330 km/h • Precision Grip" },
+  { name: "MERCEDES AMG GT", brand: "GERMAN LUXURY", type: "coupe", price: 3600, color: "#00c853", speed: 1.25, steer: 16, specs: "325 km/h • V8 Biturbo" },
+  { name: "NISSAN GT-R NISMO", brand: "JAPANESE LEGEND", type: "coupe", price: 4500, color: "#616161", speed: 1.28, steer: 17, specs: "335 km/h • AWD Godzilla" },
+  { name: "LAMBORGHINI REVUELTO", brand: "ITALIAN HYPERCAR", type: "super", price: 6000, color: "#ffc400", speed: 1.32, steer: 18, specs: "355 km/h • V12 Hybrid" },
+  { name: "BUGATTI CHIRON SPORT", brand: "FRENCH HYPER-KING", type: "super", price: 8500, color: "#00b0ff", speed: 1.38, steer: 19, specs: "420 km/h • W16 Quad" }
 ];
 
-const PAINT_SWATCHES = [0xd50000, 0x0066ff, 0x18181c, 0xf5f5f7, 0xffc400, 0x00c853, 0xff6d00, 0x90a4ae];
+const PAINT_SWATCHES = ["#d50000", "#0066ff", "#212121", "#f5f5f7", "#ffc400", "#00c853", "#ff6d00", "#90a4ae"];
 
 const CHARACTERS = [
-  { name: "AARAV", role: "ROOKIE DRIVER", price: 0, jacket: 0x1e3a8a, pants: 0x111827, skin: 0xe0ac69, speedBonus: 1.0, coinBonus: 1, bonusText: "Perk: Balanced Telemetry" },
-  { name: "VIKRAM", role: "HIGHWAY PRO", price: 350, jacket: 0xb91c1c, pants: 0x1f2937, skin: 0xd2996c, speedBonus: 1.05, coinBonus: 1, bonusText: "Perk: +5% Top Speed" },
-  { name: "KABIR", role: "DRIFT SPECIALIST", price: 750, jacket: 0x047857, pants: 0x0f172a, skin: 0xc68642, speedBonus: 1.03, coinBonus: 2, bonusText: "Perk: 2x Cash Multiplier" },
-  { name: "ROHAN", role: "TURBO ENGINEER", price: 1300, jacket: 0xd97706, pants: 0x18181b, skin: 0xf1c27d, speedBonus: 1.08, coinBonus: 2, bonusText: "Perk: +8% Speed & 2x Cash" },
-  { name: "DEV", role: "APEX CHAMPION", price: 2200, jacket: 0x6d28d9, pants: 0x09090b, skin: 0xe0ac69, speedBonus: 1.12, coinBonus: 3, bonusText: "Perk: +12% Speed & 3x Cash" }
+  { name: "AARAV", role: "ROOKIE DRIVER", price: 0, jacket: "#1e3a8a", pants: "#111827", skin: "#e0ac69", speedBonus: 1.0, coinBonus: 1, bonusText: "Perk: Balanced Telemetry" },
+  { name: "VIKRAM", role: "HIGHWAY PRO", price: 350, jacket: "#b91c1c", pants: "#1f2937", skin: "#d2996c", speedBonus: 1.05, coinBonus: 1, bonusText: "Perk: +5% Top Speed" },
+  { name: "KABIR", role: "DRIFT SPECIALIST", price: 750, jacket: "#047857", pants: "#0f172a", skin: "#c68642", speedBonus: 1.03, coinBonus: 2, bonusText: "Perk: 2x Cash Multiplier" },
+  { name: "ROHAN", role: "TURBO ENGINEER", price: 1300, jacket: "#d97706", pants: "#18181b", skin: "#f1c27d", speedBonus: 1.08, coinBonus: 2, bonusText: "Perk: +8% Speed & 2x Cash" },
+  { name: "DEV", role: "APEX CHAMPION", price: 2200, jacket: "#6d28d9", pants: "#09090b", skin: "#e0ac69", speedBonus: 1.12, coinBonus: 3, bonusText: "Perk: +12% Speed & 3x Cash" }
 ];
 
 const TRACKS = [
-  { name: "Mumbai Coastal Road", reqLevel: 1, sky: 0x5dade2, fog: 0x85c1e9, road: 0x2c3e50, desc: "Level 1 • Daylight Sea Link" },
-  { name: "Delhi-Jaipur Night", reqLevel: 2, sky: 0x090d16, fog: 0x090d16, road: 0x171a24, desc: "Level 2 • Midnight Expressway" },
-  { name: "Manali Snow Highway", reqLevel: 3, sky: 0xd6eaf8, fog: 0xebf5fb, road: 0x34495e, desc: "Level 3 • Alpine Fog & Ice" },
-  { name: "Cyber Tokyo Drift", reqLevel: 4, sky: 0x14052e, fog: 0x1d0842, road: 0x11111a, desc: "Level 4 • Future Neon City" }
+  { name: "Mumbai Coastal Road", reqLevel: 1, skyTop: "#1e88e5", skyBot: "#90caf9", ground: "#263238", road: "#37474f", desc: "Level 1 • Daylight Sea Link" },
+  { name: "Delhi-Jaipur Night", reqLevel: 2, skyTop: "#05070e", skyBot: "#141b33", ground: "#0a0d14", road: "#1c202b", desc: "Level 2 • Midnight Expressway" },
+  { name: "Manali Snow Highway", reqLevel: 3, skyTop: "#90a4ae", skyBot: "#eceff1", ground: "#cfd8dc", road: "#455a64", desc: "Level 3 • Alpine Fog & Ice" },
+  { name: "Cyber Tokyo Drift", reqLevel: 4, skyTop: "#120428", skyBot: "#311b92", ground: "#090414", road: "#161622", desc: "Level 4 • Future Neon City" }
 ];
 
 let selectedCarIdx = 0, selectedPaintHex = CARS[0].color, selectedCharIdx = 0, selectedTrackIdx = 0;
@@ -69,152 +69,20 @@ function switchPage(id) {
   document.getElementById(id).classList.add("active");
 }
 
-// --- 3. 3D ENGINE INITIALIZATION (WITH CDN FALLBACK) ---
-let scene, camera, renderer, hemiLight, playerCar, showroomPerson, roadMat;
-let roadLines = [], envProps = [];
-
-function start3D() {
-  if (typeof THREE === "undefined") {
-    const s = document.createElement("script");
-    s.src = "https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js";
-    s.onload = () => initWorld();
-    document.head.appendChild(s);
-  } else {
-    initWorld();
-  }
-}
-
-function initWorld() {
-  const container = document.getElementById("canvas-wrapper");
-  scene = new THREE.Scene();
-  camera = new THREE.PerspectiveCamera(62, window.innerWidth / window.innerHeight, 0.1, 300);
-  renderer = new THREE.WebGLRenderer({ antialias: true });
-  renderer.setSize(window.innerWidth, window.innerHeight);
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-  container.appendChild(renderer.domElement);
-
-  hemiLight = new THREE.HemisphereLight(0xffffff, 0x222233, 1.1);
-  scene.add(hemiLight);
-  const dirLight = new THREE.DirectionalLight(0xffffff, 1.3);
-  dirLight.position.set(18, 35, 22);
-  scene.add(dirLight);
-
-  roadMat = new THREE.MeshStandardMaterial({ color: 0x2c3e50, roughness: 0.85 });
-  const road = new THREE.Mesh(new THREE.PlaneGeometry(14, 320), roadMat);
-  road.rotation.x = -Math.PI / 2;
-  road.position.z = -130;
-  scene.add(road);
-
-  const walkMat = new THREE.MeshStandardMaterial({ color: 0x475569 });
-  const leftWalk = new THREE.Mesh(new THREE.BoxGeometry(6, 0.3, 320), walkMat);
-  leftWalk.position.set(-10, 0.15, -130);
-  const rightWalk = leftWalk.clone();
-  rightWalk.position.x = 10;
-  scene.add(leftWalk, rightWalk);
-
-  for (let z = 15; z > -240; z -= 11) {
-    [-2.35, 2.35].forEach(lx => {
-      const l = new THREE.Mesh(new THREE.BoxGeometry(0.22, 0.04, 3.5), new THREE.MeshBasicMaterial({ color: 0xffffff }));
-      l.position.set(lx, 0.03, z);
-      scene.add(l);
-      roadLines.push(l);
-    });
-  }
-
-  for (let z = 0; z > -240; z -= 16) {
-    [-1, 1].forEach(side => {
-      const tree = new THREE.Group();
-      const trunk = new THREE.Mesh(new THREE.CylinderGeometry(0.2, 0.3, 2), new THREE.MeshStandardMaterial({ color: 0x4e342e }));
-      trunk.position.y = 1;
-      const crown = new THREE.Mesh(new THREE.DodecahedronGeometry(1.5), new THREE.MeshStandardMaterial({ color: 0x2e7d32 }));
-      crown.position.y = 2.8;
-      tree.add(trunk, crown);
-      tree.position.set(side * 9.5, 0.3, z);
-      scene.add(tree);
-      envProps.push(tree);
-
-      const h = 14 + Math.random() * 22;
-      const b = new THREE.Mesh(new THREE.BoxGeometry(7, h, 9), new THREE.MeshStandardMaterial({ color: 0x1e293b }));
-      b.position.set(side * 16.5, h / 2, z);
-      scene.add(b);
-      envProps.push(b);
-    });
-  }
-
-  playerCar = buildRealisticCar(CARS[0], selectedPaintHex, true);
-  scene.add(playerCar);
-
-  showroomPerson = build3DPerson(CHARACTERS[0]);
-  showroomPerson.position.set(-1.65, 0, 0.4);
-  scene.add(showroomPerson);
-
-  applyTrackTheme(0);
-  animate();
-}
-
-function build3DPerson(ch) {
-  const p = new THREE.Group();
-  const skin = new THREE.MeshStandardMaterial({ color: ch.skin });
-  const jacket = new THREE.MeshStandardMaterial({ color: ch.jacket });
-  const pants = new THREE.MeshStandardMaterial({ color: ch.pants });
-  [-0.14, 0.14].forEach(lx => {
-    const leg = new THREE.Mesh(new THREE.BoxGeometry(0.18, 0.78, 0.2), pants);
-    leg.position.set(lx, 0.42, 0);
-    p.add(leg);
+// --- 3. COLOR SWATCHES & UI ---
+const swatchBox = document.getElementById("colorSwatches");
+PAINT_SWATCHES.forEach((hex, idx) => {
+  const s = document.createElement("div");
+  s.className = "swatch" + (idx === 0 ? " selected" : "");
+  s.style.backgroundColor = hex;
+  s.addEventListener("click", () => {
+    document.querySelectorAll(".swatch").forEach(el => el.classList.remove("selected"));
+    s.classList.add("selected");
+    selectedPaintHex = hex;
   });
-  const torso = new THREE.Mesh(new THREE.BoxGeometry(0.52, 0.72, 0.28), jacket);
-  torso.position.y = 1.16;
-  const head = new THREE.Mesh(new THREE.SphereGeometry(0.22, 14, 14), skin);
-  head.position.y = 1.74;
-  p.add(torso, head);
-  return p;
-}
+  swatchBox.appendChild(s);
+});
 
-function buildRealisticCar(carData, paintHex, isPlayer) {
-  const car = new THREE.Group();
-  const paintMat = new THREE.MeshStandardMaterial({ color: paintHex, metalness: 0.75, roughness: 0.2 });
-  const trimMat = new THREE.MeshStandardMaterial({ color: 0x111318 });
-  const glassMat = new THREE.MeshStandardMaterial({ color: 0x0b132b, metalness: 0.9, roughness: 0.1 });
-
-  const body = new THREE.Mesh(new THREE.BoxGeometry(1.98, 0.55, 4.3), paintMat);
-  body.position.y = 0.52;
-  const cabin = new THREE.Mesh(new THREE.BoxGeometry(1.55, 0.55, 1.95), glassMat);
-  cabin.position.set(0, 1.02, 0.05);
-  car.add(body, cabin);
-
-  const tireGeo = new THREE.CylinderGeometry(0.45, 0.45, 0.36, 16);
-  car.wheels = [];
-  [[-1.0, 0.45, 1.3], [1.0, 0.45, 1.3], [-1.0, 0.45, -1.3], [1.0, 0.45, -1.3]].forEach(pos => {
-    const w = new THREE.Mesh(tireGeo, trimMat);
-    w.rotation.z = Math.PI / 2;
-    w.position.set(...pos);
-    car.add(w);
-    car.wheels.push(w);
-  });
-
-  car.tailLights = [];
-  [-0.65, 0.65].forEach(lx => {
-    const hl = new THREE.Mesh(new THREE.BoxGeometry(0.45, 0.14, 0.1), new THREE.MeshBasicMaterial({ color: isPlayer ? 0xffffff : 0xff0022 }));
-    hl.position.set(lx, 0.56, -2.16);
-    const tMat = new THREE.MeshBasicMaterial({ color: isPlayer ? 0x990000 : 0xffffff });
-    const tl = new THREE.Mesh(new THREE.BoxGeometry(0.45, 0.14, 0.1), tMat);
-    tl.position.set(lx, 0.56, 2.16);
-    car.add(hl, tl);
-    if (isPlayer) car.tailLights.push(tMat);
-  });
-  return car;
-}
-
-function applyTrackTheme(idx) {
-  if (!scene) return;
-  const t = TRACKS[idx];
-  scene.background = new THREE.Color(t.sky);
-  scene.fog = new THREE.FogExp2(t.fog, 0.011);
-  roadMat.color.setHex(t.road);
-  hemiLight.intensity = idx === 1 || idx === 3 ? 0.5 : 1.15;
-}
-
-// --- 4. UI CONTROLS ---
 function refreshGarageUI() {
   const c = CARS[selectedCarIdx];
   const isUnlocked = saveData.unlockedCars.includes(selectedCarIdx);
@@ -224,27 +92,7 @@ function refreshGarageUI() {
   const btn = document.getElementById("carActionBtn");
   btn.className = isUnlocked ? "btn-primary" : "btn-buy";
   btn.innerText = isUnlocked ? "SELECT & CONTINUE ➔" : "💰 BUY VEHICLE ($" + c.price + ")";
-
-  if (scene && playerCar) {
-    scene.remove(playerCar);
-    playerCar = buildRealisticCar(c, selectedPaintHex, true);
-    scene.add(playerCar);
-  }
 }
-
-const swatchBox = document.getElementById("colorSwatches");
-PAINT_SWATCHES.forEach((hex, idx) => {
-  const s = document.createElement("div");
-  s.className = "swatch" + (idx === 0 ? " selected" : "");
-  s.style.backgroundColor = "#" + hex.toString(16).padStart(6, "0");
-  s.addEventListener("click", () => {
-    document.querySelectorAll(".swatch").forEach(el => el.classList.remove("selected"));
-    s.classList.add("selected");
-    selectedPaintHex = hex;
-    refreshGarageUI();
-  });
-  swatchBox.appendChild(s);
-});
 
 document.getElementById("prevCar").addEventListener("click", () => {
   selectedCarIdx = (selectedCarIdx - 1 + CARS.length) % CARS.length;
@@ -281,13 +129,6 @@ function refreshCharacterUI() {
   const btn = document.getElementById("charActionBtn");
   btn.className = isUnlocked ? "btn-primary" : "btn-buy";
   btn.innerText = isUnlocked ? "CONFIRM DRIVER ➔" : "💰 HIRE DRIVER ($" + ch.price + ")";
-
-  if (scene && showroomPerson) {
-    scene.remove(showroomPerson);
-    showroomPerson = build3DPerson(ch);
-    showroomPerson.position.set(-1.65, 0, 0.4);
-    scene.add(showroomPerson);
-  }
 }
 
 document.getElementById("prevChar").addEventListener("click", () => {
@@ -327,7 +168,6 @@ function renderTrackCards() {
     card.addEventListener("click", () => {
       if (locked) { alert("Reach Level " + t.reqLevel + " to unlock!"); return; }
       selectedTrackIdx = idx;
-      applyTrackTheme(idx);
       renderTrackCards();
     });
     grid.appendChild(card);
@@ -336,10 +176,23 @@ function renderTrackCards() {
 
 document.getElementById("backChar").addEventListener("click", () => switchPage("page-character"));
 
-// --- 5. RACING LOOP ---
-let gameRunning = false, distance = 0, raceCoins = 0, currentSpeed = 0.85, braking = false, nitro = false, hoodCam = false, targetX = 0;
-let enemies = [], coinMeshes = [], keys = { left: false, right: false };
-const lanes = [-4.6, 0, 4.6];
+// --- 4. BUILT-IN ZERO-DEPENDENCY 3D PERSPECTIVE ENGINE ---
+const canvas = document.getElementById("game3DCanvas");
+const ctx = canvas.getContext("2d");
+
+function resizeCanvas() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+}
+window.addEventListener("resize", resizeCanvas);
+resizeCanvas();
+
+let gameRunning = false, distance = 0, raceCoins = 0, currentSpeed = 14, braking = false, nitro = false, hoodCam = false;
+let playerX = 0; // -180 to +180
+let showroomAngle = 0;
+let enemies = [];
+let coinList = [];
+let keys = { left: false, right: false };
 
 const bindHold = (id, downFn, upFn) => {
   const el = document.getElementById(id);
@@ -355,14 +208,9 @@ bindHold("nitroBtn", () => nitro = true, () => nitro = false);
 document.getElementById("camSwitchBtn").addEventListener("click", () => { hoodCam = !hoodCam; });
 
 function launchRace() {
-  distance = 0; raceCoins = 0; currentSpeed = 0.85; targetX = 0;
-  playerCar.position.set(0, 0, 0); playerCar.rotation.set(0, 0, 0);
-  showroomPerson.visible = false;
-  enemies.forEach(e => scene.remove(e));
-  coinMeshes.forEach(c => scene.remove(c));
-  enemies = []; coinMeshes = [];
+  distance = 0; raceCoins = 0; currentSpeed = 14; playerX = 0;
+  enemies = []; coinList = [];
   document.getElementById("resultModal").classList.add("hidden");
-  applyTrackTheme(selectedTrackIdx);
   switchPage("page-race");
   gameRunning = true;
 }
@@ -371,99 +219,305 @@ document.getElementById("startRaceBtn").addEventListener("click", launchRace);
 document.getElementById("retryRaceBtn").addEventListener("click", launchRace);
 document.getElementById("toGarageModalBtn").addEventListener("click", () => {
   gameRunning = false;
-  showroomPerson.visible = true;
   refreshGarageUI();
   switchPage("page-garage");
 });
 
-function animate() {
-  requestAnimationFrame(animate);
+// 3D Car Renderer (Draws realistic angled 3D chassis, cabin, wheels, tail-lights)
+function draw3DCar(cx, cy, scale, colorHex, carType, isPlayer, isBraking, isNitro) {
+  ctx.save();
+  ctx.translate(cx, cy);
+  ctx.scale(scale, scale);
+
+  // Shadow
+  ctx.fillStyle = "rgba(0,0,0,0.45)";
+  ctx.beginPath();
+  ctx.ellipse(0, 26, 76, 18, 0, 0, Math.PI * 2);
+  ctx.fill();
+
+  // Tires
+  ctx.fillStyle = "#111";
+  ctx.fillRect(-68, -2, 16, 30);
+  ctx.fillRect(52, -2, 16, 30);
+
+  // Lower Body Bumper
+  ctx.fillStyle = colorHex;
+  ctx.beginPath();
+  ctx.roundRect(-64, -22, 128, 38, 10);
+  ctx.fill();
+
+  // Upper Cabin / Roof (3D Perspective Taper)
+  ctx.fillStyle = "#0d1321";
+  ctx.beginPath();
+  if (carType === "cyber") {
+    ctx.moveTo(-54, -22);
+    ctx.lineTo(0, -54);
+    ctx.lineTo(54, -22);
+  } else if (carType === "suv" || carType === "jeep") {
+    ctx.moveTo(-54, -22);
+    ctx.lineTo(-46, -52);
+    ctx.lineTo(46, -52);
+    ctx.lineTo(54, -22);
+  } else {
+    ctx.moveTo(-52, -22);
+    ctx.lineTo(-38, -46);
+    ctx.lineTo(38, -46);
+    ctx.lineTo(52, -22);
+  }
+  ctx.closePath();
+  ctx.fill();
+
+  // Roof Top Highlight
+  ctx.fillStyle = colorHex;
+  ctx.fillRect(-36, carType === "suv" || carType === "jeep" ? -54 : -48, 72, 5);
+
+  // Rear Spoiler
+  if (carType === "coupe" || carType === "super" || carType === "muscle") {
+    ctx.fillStyle = "#111";
+    ctx.fillRect(-58, -28, 116, 5);
+    ctx.fillRect(-42, -24, 6, 6);
+    ctx.fillRect(36, -24, 6, 6);
+  }
+
+  // Tail Lights / Brake Lights
+  ctx.fillStyle = isPlayer ? (isBraking ? "#ff1744" : "#b71c1c") : "#ffeb3b";
+  if (isPlayer && isBraking) {
+    ctx.shadowBlur = 18;
+    ctx.shadowColor = "#ff1744";
+  }
+  ctx.fillRect(-56, -12, 26, 8);
+  ctx.fillRect(30, -12, 26, 8);
+  ctx.shadowBlur = 0;
+
+  // License Plate / Exhausts
+  ctx.fillStyle = "#222";
+  ctx.beginPath();
+  ctx.arc(-34, 12, 6, 0, Math.PI * 2);
+  ctx.arc(34, 12, 6, 0, Math.PI * 2);
+  ctx.fill();
+
+  // Nitro Flames
+  if (isPlayer && isNitro) {
+    ctx.fillStyle = "#00f3ff";
+    ctx.beginPath();
+    ctx.arc(-34, 12, 7 + Math.random() * 5, 0, Math.PI * 2);
+    ctx.arc(34, 12, 7 + Math.random() * 5, 0, Math.PI * 2);
+    ctx.fill();
+  }
+
+  ctx.restore();
+}
+
+// 3D Human Character Renderer for Showroom
+function draw3DCharacter(cx, cy, scale, ch) {
+  ctx.save();
+  ctx.translate(cx, cy);
+  ctx.scale(scale, scale);
+
+  // Shadow
+  ctx.fillStyle = "rgba(0,0,0,0.4)";
+  ctx.beginPath();
+  ctx.ellipse(0, 72, 24, 7, 0, 0, Math.PI * 2);
+  ctx.fill();
+
+  // Legs
+  ctx.fillStyle = ch.pants;
+  ctx.fillRect(-13, 22, 11, 46);
+  ctx.fillRect(2, 22, 11, 46);
+
+  // Shoes
+  ctx.fillStyle = "#fff";
+  ctx.fillRect(-14, 66, 12, 6);
+  ctx.fillRect(2, 66, 12, 6);
+
+  // Jacket Torso
+  ctx.fillStyle = ch.jacket;
+  ctx.beginPath();
+  ctx.roundRect(-18, -24, 36, 48, 8);
+  ctx.fill();
+
+  // Arms
+  ctx.fillRect(-25, -20, 7, 40);
+  ctx.fillRect(18, -20, 7, 40);
+
+  // Head
+  ctx.fillStyle = ch.skin;
+  ctx.beginPath();
+  ctx.arc(0, -38, 13, 0, Math.PI * 2);
+  ctx.fill();
+
+  // Hair & Sunglasses
+  ctx.fillStyle = "#111";
+  ctx.beginPath();
+  ctx.arc(0, -42, 13, Math.PI, Math.PI * 2);
+  ctx.fill();
+  ctx.fillRect(-10, -40, 20, 5);
+
+  ctx.restore();
+}
+
+// --- 5. MAIN 3D RENDER LOOP ---
+function renderLoop() {
+  requestAnimationFrame(renderLoop);
+
+  const W = canvas.width;
+  const H = canvas.height;
+  const horizonY = H * 0.44;
+  const theme = TRACKS[selectedTrackIdx];
+
+  // Sky Gradient
+  const skyGrad = ctx.createLinearGradient(0, 0, 0, horizonY);
+  skyGrad.addColorStop(0, theme.skyTop);
+  skyGrad.addColorStop(1, theme.skyBot);
+  ctx.fillStyle = skyGrad;
+  ctx.fillRect(0, 0, W, horizonY);
+
+  // Ground
+  ctx.fillStyle = theme.ground;
+  ctx.fillRect(0, horizonY, W, H - horizonY);
+
+  // 3D Perspective Highway Trapezoid
+  const roadTopW = W * 0.14;
+  const roadBotW = W * 0.96;
+  ctx.fillStyle = theme.road;
+  ctx.beginPath();
+  ctx.moveTo(W / 2 - roadTopW / 2, horizonY);
+  ctx.lineTo(W / 2 + roadTopW / 2, horizonY);
+  ctx.lineTo(W / 2 + roadBotW / 2, H);
+  ctx.lineTo(W / 2 - roadBotW / 2, H);
+  ctx.closePath();
+  ctx.fill();
+
+  // Road Edge Neon / Curb Lines
+  ctx.strokeStyle = selectedTrackIdx === 3 ? "#00f3ff" : "#ffffff";
+  ctx.lineWidth = 3;
+  ctx.beginPath();
+  ctx.moveTo(W / 2 - roadTopW / 2, horizonY);
+  ctx.lineTo(W / 2 - roadBotW / 2, H);
+  ctx.moveTo(W / 2 + roadTopW / 2, horizonY);
+  ctx.lineTo(W / 2 + roadBotW / 2, H);
+  ctx.stroke();
+
+  // SHOWROOM VIEW (Garage & Character Selection Pages)
   if (!gameRunning) {
-    camera.position.set(2.8, 2.1, 5.4);
-    camera.lookAt(-0.4, 0.9, 0);
-    playerCar.rotation.y += 0.008;
-    renderer.render(scene, camera);
+    showroomAngle += 0.03;
+    const bounce = Math.sin(showroomAngle * 2) * 3;
+    const car = CARS[selectedCarIdx];
+    const ch = CHARACTERS[selectedCharIdx];
+
+    // Showroom Spotlight Floor
+    ctx.fillStyle = "rgba(0, 243, 255, 0.14)";
+    ctx.beginPath();
+    ctx.ellipse(W / 2, H * 0.56, 165, 38, 0, 0, Math.PI * 2);
+    ctx.fill();
+
+    // Draw 3D Character next to Car
+    draw3DCharacter(W / 2 - 115, H * 0.49, 1.25, ch);
+    // Draw Selected 3D Car with Selected Metallic Color
+    draw3DCar(W / 2 + 25, H * 0.53 + bounce, 1.45, selectedPaintHex, car.type, true, false, false);
     return;
   }
 
-  playerCar.rotation.y = 0;
+  // LIVE 3D RACING VIEW
   const carStats = CARS[selectedCarIdx];
   const charStats = CHARACTERS[selectedCharIdx];
-  const maxSpd = 1.35 * carStats.speed * charStats.speedBonus;
+  const maxSpd = 22 * carStats.speed * charStats.speedBonus;
 
-  if (braking) {
-    currentSpeed = Math.max(0.32, currentSpeed - 0.045);
-    playerCar.tailLights.forEach(m => m.color.setHex(0xff0000));
-  } else if (nitro) {
-    currentSpeed = Math.min(maxSpd * 1.45, currentSpeed + 0.03);
-    playerCar.tailLights.forEach(m => m.color.setHex(0x880000));
-  } else {
-    currentSpeed += (maxSpd * 0.78 - currentSpeed) * 0.03;
-    playerCar.tailLights.forEach(m => m.color.setHex(0x880000));
-  }
+  if (braking) currentSpeed = Math.max(5, currentSpeed - 0.8);
+  else if (nitro) currentSpeed = Math.min(maxSpd * 1.45, currentSpeed + 0.6);
+  else currentSpeed += (maxSpd * 0.78 - currentSpeed) * 0.04;
 
-  distance += currentSpeed * 1.8;
+  distance += currentSpeed * 0.25;
   document.getElementById("hudScore").innerText = Math.floor(distance);
   document.getElementById("hudCoins").innerText = raceCoins;
-  document.getElementById("hudSpeed").innerText = Math.floor(currentSpeed * 185);
+  document.getElementById("hudSpeed").innerText = Math.floor(currentSpeed * 12);
 
-  playerCar.wheels.forEach(w => { w.rotation.x -= currentSpeed * 0.5; });
+  if (keys.left && playerX > -140) playerX -= carStats.steer * 0.55;
+  if (keys.right && playerX < 140) playerX += carStats.steer * 0.55;
 
-  if (hoodCam) {
-    camera.position.set(playerCar.position.x, 1.58, -0.35);
-    camera.lookAt(playerCar.position.x, 1.25, -35);
-  } else {
-    camera.position.set(playerCar.position.x * 0.65, 3.9, 8.2);
-    camera.lookAt(playerCar.position.x * 0.4, 1.0, -14);
+  // Moving 3D Perspective Lane Dashes & Roadside Pillars
+  const stripeCycle = (distance * 18) % 100;
+  for (let i = 0; i < 10; i++) {
+    const zNorm = (i * 100 + stripeCycle) / 1000; // 0 (horizon) to 1 (camera)
+    const persp = Math.pow(zNorm, 1.7);
+    const y = horizonY + persp * (H - horizonY);
+    const curW = roadTopW + persp * (roadBotW - roadTopW);
+
+    // Center Lane Lines
+    ctx.fillStyle = "rgba(255,255,255,0.65)";
+    const dashH = Math.max(2, persp * 26);
+    const dashW = Math.max(1.5, persp * 6);
+    ctx.fillRect(W / 2 - curW * 0.17 - dashW / 2, y, dashW, dashH);
+    ctx.fillRect(W / 2 + curW * 0.17 - dashW / 2, y, dashW, dashH);
+
+    // Roadside 3D Buildings / Light Poles
+    const bW = persp * 55;
+    const bH = persp * 140;
+    ctx.fillStyle = selectedTrackIdx === 1 || selectedTrackIdx === 3 ? "#0f172a" : "#37474f";
+    ctx.fillRect(W / 2 - curW * 0.58 - bW, y - bH, bW, bH);
+    ctx.fillRect(W / 2 + curW * 0.58, y - bH, bW, bH);
   }
 
-  if (keys.left && targetX > -4.8) { targetX -= carStats.steer; playerCar.rotation.z = 0.09; }
-  else if (keys.right && targetX < 4.8) { targetX += carStats.steer; playerCar.rotation.z = -0.09; }
-  else { playerCar.rotation.z *= 0.85; }
-  playerCar.position.x += (targetX - playerCar.position.x) * 0.22;
-
-  roadLines.forEach(l => { l.position.z += currentSpeed; if (l.position.z > 20) l.position.z -= 250; });
-  envProps.forEach(p => { p.position.z += currentSpeed; if (p.position.z > 25) p.position.z -= 240; });
-
-  if (Math.random() < 0.032) {
-    const laneX = lanes[Math.floor(Math.random() * lanes.length)];
-    if (!enemies.some(en => en.position.x === laneX && en.position.z < -130)) {
+  // Spawn Traffic & Coins
+  if (Math.random() < 0.035) {
+    const lanes = [-95, 0, 95];
+    const lx = lanes[Math.floor(Math.random() * lanes.length)];
+    if (!enemies.some(e => e.x === lx && e.z < 0.25)) {
       const randCar = CARS[Math.floor(Math.random() * CARS.length)];
       const randCol = PAINT_SWATCHES[Math.floor(Math.random() * PAINT_SWATCHES.length)];
-      const en = buildRealisticCar(randCar, randCol, false);
-      en.position.set(laneX, 0, -190);
-      scene.add(en);
-      enemies.push(en);
+      enemies.push({ x: lx, z: 0.02, color: randCol, type: randCar.type });
     }
   }
 
   if (Math.random() < 0.045) {
-    const laneX = lanes[Math.floor(Math.random() * lanes.length)];
-    const c = new THREE.Mesh(
-      new THREE.CylinderGeometry(0.55, 0.55, 0.16, 16),
-      new THREE.MeshStandardMaterial({ color: 0xffd700, metalness: 0.9, roughness: 0.1 })
-    );
-    c.rotation.x = Math.PI / 2;
-    c.position.set(laneX, 0.85, -190);
-    scene.add(c);
-    coinMeshes.push(c);
+    const lanes = [-95, 0, 95];
+    coinList.push({ x: lanes[Math.floor(Math.random() * lanes.length)], z: 0.02 });
   }
 
-  for (let i = coinMeshes.length - 1; i >= 0; i--) {
-    const c = coinMeshes[i];
-    c.position.z += currentSpeed;
-    c.rotation.z += 0.1;
-    if (Math.abs(c.position.x - playerCar.position.x) < 1.35 && Math.abs(c.position.z - playerCar.position.z) < 2.3) {
+  // Update & Draw Coins
+  for (let i = coinList.length - 1; i >= 0; i--) {
+    const c = coinList[i];
+    c.z += currentSpeed * 0.0012;
+    const persp = Math.pow(c.z, 1.7);
+    const cy = horizonY + persp * (H - horizonY);
+    const cx = W / 2 + c.x * (0.25 + persp * 1.35);
+    const r = Math.max(3, persp * 18);
+
+    ctx.fillStyle = "#ffd700";
+    ctx.beginPath();
+    ctx.arc(cx, cy - r, r, 0, Math.PI * 2);
+    ctx.fill();
+
+    if (c.z > 0.82 && c.z < 0.96 && Math.abs(c.x - playerX) < 42) {
       raceCoins += 10 * charStats.coinBonus;
-      scene.remove(c);
-      coinMeshes.splice(i, 1);
-    } else if (c.position.z > 18) {
-      scene.remove(c);
-      coinMeshes.splice(i, 1);
+      coinList.splice(i, 1);
+    } else if (c.z > 1.05) {
+      coinList.splice(i, 1);
     }
   }
 
+  // Update & Draw Traffic Cars (Sorted far to near)
+  enemies.sort((a, b) => a.z - b.z);
   for (let i = enemies.length - 1; i >= 0; i--) {
     const en = enemies[i];
-    en.position.z += currentSpeed * 0.65;
-    if (Math.abs(en.position.x - playerCar
+    en.z += currentSpeed * 0.00085;
+    const persp = Math.pow(en.z, 1.7);
+    const ey = horizonY + persp * (H - horizonY);
+    const ex = W / 2 + en.x * (0.25 + persp * 1.35);
+
+    draw3DCar(ex, ey, persp * 1.15, en.color, en.type, false, false, false);
+
+    if (en.z > 0.85 && en.z < 0.97 && Math.abs(en.x - playerX) < 46) {
+      gameRunning = false;
+      const earnedXP = Math.floor(distance / 10) + 40;
+      const totalEarned = raceCoins + Math.floor(distance / 15);
+      saveData.coins += totalEarned;
+      saveData.xp += earnedXP;
+      persistSave();
+      document.getElementById("resultSummary").innerText = "Distance: " + Math.floor(distance) + "m | Earned: $" + totalEarned;
+      document.getElementById("xpGainText").innerText = "+" + earnedXP + " XP (Level " + saveData.level + ")";
+      document.getElementById("resultModal").classList.remove("hidden");
+      return;
+    }
+
+    if (en.z > 1.08) enemies.
