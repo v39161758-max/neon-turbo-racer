@@ -7,7 +7,7 @@
 }
 
 body {
-  background: #05070e;
+  background: #06080f;
   color: #fff;
   font-family: 'Segoe UI', Roboto, sans-serif;
   overflow: hidden;
@@ -21,6 +21,67 @@ body {
   z-index: 1;
 }
 
+.hidden {
+  display: none !important;
+}
+
+/* स्थायी ड्राइवर पहचान और वॉलेट बार */
+#identity-header {
+  position: fixed;
+  top: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 94%;
+  max-width: 480px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 25;
+  pointer-events: none;
+}
+
+.profile-chip, .wallet-chip {
+  background: rgba(10, 14, 26, 0.88);
+  border: 1px solid rgba(0, 243, 255, 0.45);
+  backdrop-filter: blur(8px);
+  padding: 6px 12px;
+  border-radius: 30px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.avatar-dot {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #00f3ff, #ff2a6d);
+  color: #000;
+  font-weight: 900;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.p-name {
+  font-size: 12px;
+  font-weight: 900;
+  color: #fff;
+}
+
+.p-rank {
+  font-size: 10px;
+  color: #00f3ff;
+  font-weight: 700;
+}
+
+.wallet-chip {
+  border-color: #ffd700;
+  color: #ffd700;
+  font-size: 14px;
+}
+
+/* SCREENS */
 .screen {
   position: fixed;
   inset: 0;
@@ -28,7 +89,7 @@ body {
   display: none;
   flex-direction: column;
   justify-content: space-between;
-  padding: 20px;
+  padding: 64px 18px 22px;
 }
 
 .screen.active {
@@ -37,14 +98,15 @@ body {
 
 /* PAGE 1: LOADING */
 #page-loading {
-  background: radial-gradient(circle at center, #12182b 0%, #04060c 100%);
+  background: radial-gradient(circle at center, #141b33 0%, #05070e 100%);
   justify-content: center;
   align-items: center;
   text-align: center;
-  z-index: 50;
+  padding-top: 20px;
+  z-index: 40;
 }
 
-.brand-tag {
+.tag {
   background: rgba(0, 243, 255, 0.15);
   border: 1px solid #00f3ff;
   color: #00f3ff;
@@ -52,250 +114,250 @@ body {
   font-weight: 800;
   padding: 5px 14px;
   border-radius: 20px;
-  letter-spacing: 2px;
   margin-bottom: 12px;
+  display: inline-block;
 }
 
-.loader-content h1 {
-  font-size: 40px;
+.loader-box h1 {
+  font-size: 38px;
   font-weight: 900;
-  letter-spacing: 1px;
   margin-bottom: 8px;
 }
 
-.loader-content h1 span {
+.loader-box h1 span {
   color: #ff2a6d;
 }
 
-#loading-status {
-  font-size: 14px;
-  color: #9aa5ce;
-  margin-bottom: 22px;
+#loadText {
+  font-size: 13px;
+  color: #a0aec0;
+  margin-bottom: 18px;
 }
 
-.progress-bar-bg {
-  width: 280px;
+.bar-bg {
+  width: 270px;
   height: 10px;
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.12);
   border-radius: 10px;
   overflow: hidden;
-  margin: 0 auto 10px;
+  margin: 0 auto 8px;
 }
 
-#progress-fill {
+#barFill {
   width: 0%;
   height: 100%;
   background: linear-gradient(90deg, #00f3ff, #ff2a6d);
-  transition: width 0.2s;
 }
 
-#progress-percent {
-  font-weight: 800;
+#barPct {
   color: #00f3ff;
+  font-weight: 800;
+  margin-bottom: 20px;
 }
 
-/* TOP BARS */
-.top-bar {
+#nameSetupBox {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 270px;
+  margin: 0 auto;
+}
+
+#driverNameInput {
+  padding: 13px;
+  border-radius: 12px;
+  border: 1px solid #00f3ff;
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+  font-size: 15px;
+  text-align: center;
+  outline: none;
+}
+
+/* SHOWROOM & CHARACTER CARDS */
+.top-nav {
   display: flex;
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  max-width: 500px;
+  max-width: 480px;
   margin: 0 auto;
 }
 
-.step-badge {
-  background: rgba(10, 14, 28, 0.85);
-  border: 1px solid rgba(0, 243, 255, 0.5);
-  padding: 7px 14px;
-  border-radius: 20px;
+.page-label {
   font-size: 12px;
   font-weight: 800;
   color: #00f3ff;
+  background: rgba(0, 243, 255, 0.12);
+  padding: 6px 12px;
+  border-radius: 14px;
 }
 
-.best-badge {
-  background: rgba(255, 215, 0, 0.15);
-  border: 1px solid #ffd700;
-  color: #ffd700;
-  padding: 7px 14px;
-  border-radius: 20px;
-  font-size: 12px;
-  font-weight: 800;
-}
-
-.back-btn {
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  color: #fff;
-  padding: 8px 16px;
-  border-radius: 12px;
-  font-weight: 700;
-  cursor: pointer;
-}
-
-/* PAGE 2: GARAGE */
-.garage-bottom-panel {
+.bottom-card {
   width: 100%;
   max-width: 460px;
   margin: 0 auto;
-  background: rgba(10, 14, 26, 0.88);
+  background: rgba(10, 14, 26, 0.9);
   border: 1px solid rgba(255, 255, 255, 0.15);
   backdrop-filter: blur(12px);
   border-radius: 22px;
-  padding: 18px;
+  padding: 16px;
 }
 
-.car-selector-row {
+.nav-row {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 15px;
+  margin-bottom: 14px;
 }
 
-.circle-btn {
-  width: 46px;
-  height: 46px;
+.round-btn {
+  width: 44px;
+  height: 44px;
   border-radius: 50%;
-  background: rgba(0, 243, 255, 0.18);
+  background: rgba(0, 243, 255, 0.2);
   border: 1px solid #00f3ff;
   color: #fff;
   font-size: 18px;
-  font-weight: bold;
   cursor: pointer;
 }
 
-.car-title-box {
+.info-center {
   text-align: center;
 }
 
-.brand-pill {
+.sub-tag {
   font-size: 10px;
   font-weight: 800;
   color: #ff2a6d;
   letter-spacing: 1.5px;
 }
 
-.car-title-box h2 {
-  font-size: 22px;
+.info-center h2 {
+  font-size: 20px;
   margin: 2px 0;
 }
 
-.car-title-box p {
+.info-center p {
   font-size: 12px;
-  color: #a9b1d6;
+  color: #cbd5e1;
 }
 
-.color-picker-box {
-  margin-bottom: 16px;
-  text-align: center;
-}
-
-.color-picker-box label {
-  display: block;
+.paint-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
   font-size: 12px;
-  color: #ccc;
-  margin-bottom: 8px;
+  color: #cbd5e1;
 }
 
 .swatches {
   display: flex;
-  justify-content: center;
-  gap: 10px;
-  flex-wrap: wrap;
+  gap: 7px;
 }
 
 .swatch {
-  width: 30px;
-  height: 30px;
+  width: 24px;
+  height: 24px;
   border-radius: 50%;
   border: 2px solid rgba(255, 255, 255, 0.3);
   cursor: pointer;
-  transition: transform 0.2s;
 }
 
 .swatch.selected {
-  transform: scale(1.22);
   border-color: #fff;
-  box-shadow: 0 0 12px #fff;
+  transform: scale(1.2);
 }
 
-/* PAGE 3 & 4: DRIVER & TRACK CARDS */
-#page-driver, #page-track {
-  background: rgba(6, 9, 19, 0.88);
-  backdrop-filter: blur(10px);
+/* TRACK GRID */
+#page-track {
+  background: rgba(6, 9, 19, 0.85);
+  backdrop-filter: blur(8px);
 }
 
-.panel-center {
+.track-container {
   width: 100%;
   max-width: 460px;
   margin: auto;
-  text-align: center;
 }
 
-.panel-center h2 {
-  font-size: 24px;
-  margin-bottom: 16px;
-  color: #00f3ff;
-}
-
-.cards-grid {
+.track-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 12px;
-  margin-bottom: 20px;
+  margin-bottom: 18px;
 }
 
-.select-card {
-  background: rgba(20, 26, 48, 0.85);
+.track-card {
+  background: rgba(20, 26, 48, 0.9);
   border: 2px solid rgba(255, 255, 255, 0.12);
   border-radius: 16px;
   padding: 14px 10px;
+  text-align: center;
+  position: relative;
   cursor: pointer;
-  transition: 0.2s;
 }
 
-.select-card.selected {
+.track-card.selected {
   border-color: #00f3ff;
-  background: rgba(0, 243, 255, 0.15);
-  box-shadow: 0 0 16px rgba(0, 243, 255, 0.3);
+  background: rgba(0, 243, 255, 0.16);
 }
 
-.select-card .icon {
-  font-size: 30px;
-  margin-bottom: 6px;
+.track-card.locked {
+  opacity: 0.55;
+  border-color: #ff2a6d;
 }
 
-.select-card h3 {
-  font-size: 15px;
-  margin-bottom: 4px;
-}
-
-.select-card p {
-  font-size: 11px;
-  color: #b0b8d4;
+.lock-badge {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: #ff2a6d;
+  font-size: 10px;
+  font-weight: 800;
+  padding: 2px 7px;
+  border-radius: 8px;
 }
 
 /* BUTTONS */
-.primary-btn, .start-race-btn {
+.btn-primary, .btn-race, .btn-buy {
   width: 100%;
-  padding: 15px;
+  padding: 14px;
   border: none;
   border-radius: 14px;
-  font-size: 17px;
+  font-size: 16px;
   font-weight: 800;
   color: #fff;
-  background: linear-gradient(90deg, #00b4db, #0083b0);
   cursor: pointer;
 }
 
-.start-race-btn {
-  background: linear-gradient(90deg, #ff2a6d, #ff7b00);
-  box-shadow: 0 0 22px rgba(255, 42, 109, 0.6);
+.btn-primary {
+  background: linear-gradient(90deg, #00b4db, #0083b0);
 }
 
-/* PAGE 5: RACE HUD */
-#hud {
+.btn-buy {
+  background: linear-gradient(90deg, #f59e0b, #d97706);
+  color: #000;
+}
+
+.btn-race {
+  background: linear-gradient(90deg, #ff2a6d, #ff7b00);
+  box-shadow: 0 0 20px rgba(255, 42, 109, 0.6);
+}
+
+.btn-ghost {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: #fff;
+  padding: 8px 14px;
+  border-radius: 10px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+/* PAGE 5: RACING CONTROLS */
+.race-hud {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -305,87 +367,105 @@ body {
   margin: 0 auto;
 }
 
-.hud-item {
+.hud-pill {
   flex: 1;
-  background: rgba(8, 12, 24, 0.8);
+  background: rgba(8, 12, 24, 0.82);
   border: 1px solid rgba(0, 243, 255, 0.4);
   border-radius: 10px;
-  padding: 6px;
+  padding: 5px;
   text-align: center;
   font-size: 10px;
-  font-weight: 700;
   color: #aaa;
+  font-weight: 700;
 }
 
-.hud-item span {
-  font-size: 15px;
+.hud-pill span {
+  font-size: 14px;
   color: #00f3ff;
   font-weight: 900;
 }
 
-.hud-cam {
+.cam-toggle {
   background: #ff2a6d;
   border: none;
   color: #fff;
   font-size: 18px;
-  padding: 10px 14px;
+  padding: 9px 13px;
   border-radius: 10px;
 }
 
-#controls {
+.driving-controls {
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-end;
   width: 100%;
-  max-width: 460px;
+  max-width: 480px;
   margin: 0 auto;
 }
 
-#controls button {
-  background: rgba(12, 16, 30, 0.75);
+.steer-group, .pedal-group {
+  display: flex;
+  gap: 10px;
+}
+
+.ctrl-btn {
+  background: rgba(15, 20, 35, 0.78);
   border: 2px solid #00f3ff;
   color: #fff;
   font-size: 24px;
-  padding: 18px 28px;
+  padding: 20px 26px;
   border-radius: 18px;
 }
 
-#nitroBtn {
-  border-color: #ff2a6d !important;
-  background: rgba(255, 42, 109, 0.45) !important;
-  font-size: 16px !important;
+.pedal-brake {
+  background: rgba(220, 38, 38, 0.65);
+  border: 2px solid #ef4444;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 900;
+  padding: 14px 16px;
+  border-radius: 16px;
 }
 
-#gameover-modal {
+.pedal-nitro {
+  background: rgba(245, 158, 11, 0.65);
+  border: 2px solid #fbbf24;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 900;
+  padding: 14px 16px;
+  border-radius: 16px;
+}
+
+.modal {
   position: fixed;
   inset: 0;
-  background: rgba(5, 7, 15, 0.92);
+  background: rgba(5, 7, 15, 0.94);
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 25px;
-  z-index: 30;
+  text-align: center;
+  padding: 24px;
+  z-index: 35;
 }
 
-#gameover-modal.hidden {
-  display: none;
-}
-
-#gameover-modal h1 {
-  font-size: 40px;
+.modal h1 {
+  font-size: 38px;
   color: #ff2a6d;
   margin-bottom: 10px;
 }
 
-#gameover-modal p {
-  font-size: 18px;
-  margin-bottom: 24px;
+.xp-text {
+  color: #00f3ff;
+  font-weight: 800;
+  margin: 8px 0 22px;
 }
 
-.modal-btns {
+.modal-actions {
   display: flex;
   flex-direction: column;
   gap: 12px;
   width: 240px;
-                         }
+  }
+    
