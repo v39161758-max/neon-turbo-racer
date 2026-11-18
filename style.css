@@ -4,31 +4,45 @@
   box-sizing: border-box;
   user-select: none;
   -webkit-touch-callout: none;
+  -webkit-tap-highlight-color: transparent;
 }
 
-body {
-  background: #06080f;
+html, body {
+  background: #05070e;
   color: #fff;
-  font-family: 'Segoe UI', Roboto, sans-serif;
+  font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
   overflow: hidden;
   width: 100vw;
   height: 100vh;
+  height: 100dvh;
+  position: fixed;
+  inset: 0;
 }
 
 #canvas-wrapper {
   position: fixed;
-  inset: 0;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh;
   z-index: 1;
+}
+
+canvas {
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
 }
 
 .hidden {
   display: none !important;
 }
 
-/* स्थायी ड्राइवर पहचान और वॉलेट बार */
+/* IDENTITY & WALLET HEADER */
 #identity-header {
   position: fixed;
-  top: 12px;
+  top: max(12px, env(safe-area-inset-top));
   left: 50%;
   transform: translateX(-50%);
   width: 94%;
@@ -42,9 +56,9 @@ body {
 
 .profile-chip, .wallet-chip {
   background: rgba(10, 14, 26, 0.88);
-  border: 1px solid rgba(0, 243, 255, 0.45);
-  backdrop-filter: blur(8px);
-  padding: 6px 12px;
+  border: 1px solid rgba(0, 243, 255, 0.5);
+  backdrop-filter: blur(10px);
+  padding: 6px 13px;
   border-radius: 30px;
   display: flex;
   align-items: center;
@@ -81,15 +95,17 @@ body {
   font-size: 14px;
 }
 
-/* SCREENS */
+/* FULLSCREEN PAGES */
 .screen {
   position: fixed;
   inset: 0;
+  width: 100vw;
+  height: 100dvh;
   z-index: 10;
   display: none;
   flex-direction: column;
   justify-content: space-between;
-  padding: 64px 18px 22px;
+  padding: calc(max(12px, env(safe-area-inset-top)) + 48px) 16px calc(max(16px, env(safe-area-inset-bottom)) + 8px);
 }
 
 .screen.active {
@@ -102,7 +118,7 @@ body {
   justify-content: center;
   align-items: center;
   text-align: center;
-  padding-top: 20px;
+  padding: 20px;
   z-index: 40;
 }
 
@@ -116,10 +132,11 @@ body {
   border-radius: 20px;
   margin-bottom: 12px;
   display: inline-block;
+  letter-spacing: 1.5px;
 }
 
 .loader-box h1 {
-  font-size: 38px;
+  font-size: 40px;
   font-weight: 900;
   margin-bottom: 8px;
 }
@@ -135,7 +152,7 @@ body {
 }
 
 .bar-bg {
-  width: 270px;
+  width: 280px;
   height: 10px;
   background: rgba(255, 255, 255, 0.12);
   border-radius: 10px;
@@ -147,6 +164,7 @@ body {
   width: 0%;
   height: 100%;
   background: linear-gradient(90deg, #00f3ff, #ff2a6d);
+  transition: width 0.15s ease-out;
 }
 
 #barPct {
@@ -159,7 +177,7 @@ body {
   display: flex;
   flex-direction: column;
   gap: 12px;
-  width: 270px;
+  width: 280px;
   margin: 0 auto;
 }
 
@@ -188,7 +206,7 @@ body {
   font-size: 12px;
   font-weight: 800;
   color: #00f3ff;
-  background: rgba(0, 243, 255, 0.12);
+  background: rgba(0, 243, 255, 0.14);
   padding: 6px 12px;
   border-radius: 14px;
 }
@@ -248,7 +266,8 @@ body {
   align-items: center;
   justify-content: space-between;
   margin-bottom: 14px;
-  font-size: 12px;
+  font-size: 11px;
+  font-weight: 700;
   color: #cbd5e1;
 }
 
@@ -267,7 +286,7 @@ body {
 
 .swatch.selected {
   border-color: #fff;
-  transform: scale(1.2);
+  transform: scale(1.22);
 }
 
 /* TRACK GRID */
@@ -290,10 +309,10 @@ body {
 }
 
 .track-card {
-  background: rgba(20, 26, 48, 0.9);
-  border: 2px solid rgba(255, 255, 255, 0.12);
+  background: rgba(20, 26, 48, 0.92);
+  border: 2px solid rgba(255, 255, 255, 0.14);
   border-radius: 16px;
-  padding: 14px 10px;
+  padding: 16px 10px;
   text-align: center;
   position: relative;
   cursor: pointer;
@@ -301,7 +320,7 @@ body {
 
 .track-card.selected {
   border-color: #00f3ff;
-  background: rgba(0, 243, 255, 0.16);
+  background: rgba(0, 243, 255, 0.18);
 }
 
 .track-card.locked {
@@ -326,10 +345,11 @@ body {
   padding: 14px;
   border: none;
   border-radius: 14px;
-  font-size: 16px;
+  font-size: 15px;
   font-weight: 800;
   color: #fff;
   cursor: pointer;
+  letter-spacing: 0.5px;
 }
 
 .btn-primary {
@@ -409,7 +429,7 @@ body {
 }
 
 .ctrl-btn {
-  background: rgba(15, 20, 35, 0.78);
+  background: rgba(15, 20, 35, 0.8);
   border: 2px solid #00f3ff;
   color: #fff;
   font-size: 24px;
@@ -418,7 +438,7 @@ body {
 }
 
 .pedal-brake {
-  background: rgba(220, 38, 38, 0.65);
+  background: rgba(220, 38, 38, 0.7);
   border: 2px solid #ef4444;
   color: #fff;
   font-size: 12px;
@@ -428,7 +448,7 @@ body {
 }
 
 .pedal-nitro {
-  background: rgba(245, 158, 11, 0.65);
+  background: rgba(245, 158, 11, 0.7);
   border: 2px solid #fbbf24;
   color: #fff;
   font-size: 12px;
@@ -468,4 +488,3 @@ body {
   gap: 12px;
   width: 240px;
   }
-    
