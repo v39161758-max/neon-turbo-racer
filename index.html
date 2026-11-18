@@ -1,17 +1,19 @@
 <!DOCTYPE html>
-<html lang="hi">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>APEX CAREER 3D: Real Driving Simulator</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <title>APEX DRIVE 3D: Pro Career Simulator</title>
   <link rel="stylesheet" href="style.css">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <!-- Bundled Offline Three.js with CDN Fallback -->
+  <script src="three.min.js" onerror="this.onerror=null;this.src='https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js';"></script>
 </head>
 <body>
-  <!-- 3D रेंडरर कैनवास -->
   <div id="canvas-wrapper"></div>
 
-  <!-- स्थायी पहचान और वॉलेट बार (Identity Header) -->
+  <!-- PERMANENT DRIVER IDENTITY & WALLET HEADER -->
   <header id="identity-header" class="hidden">
     <div class="profile-chip">
       <div class="avatar-dot" id="headerAvatar">V</div>
@@ -21,96 +23,92 @@
       </div>
     </div>
     <div class="wallet-chip">
-      <span>💰 ₹<b id="walletCoins">500</b></span>
+      <span>💰 $<b id="walletCoins">500</b></span>
     </div>
   </header>
 
-  <!-- PAGE 1: LOADING & IDENTITY SETUP -->
+  <!-- PAGE 1: LOADING & DRIVER IDENTITY SETUP -->
   <section id="page-loading" class="screen active">
     <div class="loader-box">
-      <div class="tag">REALISTIC 3D CAREER SIMULATOR</div>
+      <div class="tag">NEXT-GEN 3D PHYSICS ENGINE</div>
       <h1>APEX <span>DRIVE 3D</span></h1>
-      <p id="loadText">3D व्हीकल फिजिक्स और कैरेक्टर्स लोड हो रहे हैं...</p>
+      <p id="loadText">Initializing 3D Shaders & Procedural Textures...</p>
       <div class="bar-bg"><div id="barFill"></div></div>
       <div id="barPct">0%</div>
 
-      <!-- पहली बार नाम/पहचान सेट करने के लिए -->
       <div id="nameSetupBox" class="hidden">
-        <input type="text" id="driverNameInput" placeholder="अपना ड्राइवर नाम लिखें..." maxlength="14">
-        <button id="enterGarageBtn" class="btn-primary">करियर शुरू करें ➔</button>
+        <input type="text" id="driverNameInput" placeholder="Enter Driver Callsign..." maxlength="14">
+        <button id="enterGarageBtn" class="btn-primary">ENTER SHOWROOM ➔</button>
       </div>
     </div>
   </section>
 
-  <!-- PAGE 2: 3D CAR SHOWROOM & PAINT SHOP -->
+  <!-- PAGE 2: 3D CAR SHOWROOM & METALLIC PAINT SHOP -->
   <section id="page-garage" class="screen">
     <div class="spacer"></div>
     <div class="bottom-card">
       <div class="nav-row">
         <button id="prevCar" class="round-btn">◀</button>
         <div class="info-center">
-          <span id="carBrand" class="sub-tag">INDIAN ELECTRIC</span>
+          <span id="carBrand" class="sub-tag">INDIAN COUPE SUV</span>
           <h2 id="carName">TATA CURVV EV</h2>
-          <p id="carSpecs">Speed: 240 km/h • Brake: 85%</p>
+          <p id="carSpecs">Top Speed: 240 km/h • Aero Grip: 88%</p>
         </div>
         <button id="nextCar" class="round-btn">▶</button>
       </div>
 
-      <!-- कलर पेंट सेलेक्टर -->
       <div class="paint-row">
-        <span>मेटैलिक कलर:</span>
+        <span>METALLIC PAINT:</span>
         <div id="colorSwatches" class="swatches"></div>
       </div>
 
-      <!-- खरीदें या चुनें बटन -->
-      <button id="carActionBtn" class="btn-primary">चुनें और आगे बढ़ें ➔</button>
+      <button id="carActionBtn" class="btn-primary">SELECT & CONTINUE ➔</button>
     </div>
   </section>
 
-  <!-- PAGE 3: REALISTIC 3D CHARACTER (PEOPLE) STORE -->
+  <!-- PAGE 3: 3D CHARACTER (DRIVER) STORE -->
   <section id="page-character" class="screen">
     <div class="top-nav">
-      <button id="backGarage" class="btn-ghost">⬅ कार गैराज</button>
-      <span class="page-label">CHARACTER STORE</span>
+      <button id="backGarage" class="btn-ghost">⬅ GARAGE</button>
+      <span class="page-label">DRIVER ROSTER</span>
     </div>
 
     <div class="bottom-card">
       <div class="nav-row">
         <button id="prevChar" class="round-btn">◀</button>
         <div class="info-center">
-          <span id="charRole" class="sub-tag">STREET DRIVER</span>
-          <h2 id="charName">AARAV (DEFAULT)</h2>
-          <p id="charBonus">बोनस: बैलेंस्ड ड्राइविंग स्किल</p>
+          <span id="charRole" class="sub-tag">ROOKIE RACER</span>
+          <h2 id="charName">AARAV (UNLOCKED)</h2>
+          <p id="charBonus">Perk: Balanced Telemetry & Control</p>
         </div>
         <button id="nextChar" class="round-btn">▶</button>
       </div>
-      <button id="charActionBtn" class="btn-primary">इस कैरेक्टर से आगे बढ़ें ➔</button>
+      <button id="charActionBtn" class="btn-primary">CONFIRM DRIVER ➔</button>
     </div>
   </section>
 
-  <!-- PAGE 4: LEVEL-LOCKED ROAD & TRACK SELECTOR -->
+  <!-- PAGE 4: LEVEL-LOCKED HIGHWAY & WEATHER SELECTOR -->
   <section id="page-track" class="screen">
     <div class="top-nav">
-      <button id="backChar" class="btn-ghost">⬅ कैरेक्टर</button>
+      <button id="backChar" class="btn-ghost">⬅ DRIVER</button>
       <span class="page-label">SELECT HIGHWAY</span>
     </div>
 
     <div class="track-container">
       <div id="trackList" class="track-grid"></div>
-      <button id="startRaceBtn" class="btn-race">🏁 रेस शुरू करें</button>
+      <button id="startRaceBtn" class="btn-race">🏁 IGNITE ENGINE</button>
     </div>
   </section>
 
-  <!-- PAGE 5: REALISTIC DRIVING COCKPIT & CONTROLS -->
+  <!-- PAGE 5: REALISTIC 3D COCKPIT & DRIVING CONTROLS -->
   <section id="page-race" class="screen">
     <div class="race-hud">
       <div class="hud-pill">DIST<br><span id="hudScore">0</span>m</div>
-      <div class="hud-pill">EARNED<br>₹<span id="hudCoins">0</span></div>
+      <div class="hud-pill">CASH<br>$<span id="hudCoins">0</span></div>
       <div class="hud-pill">SPEED<br><span id="hudSpeed">0</span> km/h</div>
       <button id="camSwitchBtn" class="cam-toggle">📷</button>
     </div>
 
-    <!-- असली कार कंट्रोल्स: Left/Right + Brake + Nitro -->
     <div class="driving-controls">
       <div class="steer-group">
         <button id="leftBtn" class="ctrl-btn">◀</button>
@@ -122,14 +120,13 @@
       </div>
     </div>
 
-    <!-- रिजल्ट / क्रैश स्क्रीन -->
     <div id="resultModal" class="modal hidden">
-      <h1 id="resultTitle">RACE FINISHED</h1>
-      <p id="resultSummary">Distance: 0m | Earned: ₹0</p>
+      <h1 id="resultTitle">CRASHED!</h1>
+      <p id="resultSummary">Distance: 0m | Earned: $0</p>
       <p id="xpGainText" class="xp-text">+50 XP GAINED!</p>
       <div class="modal-actions">
-        <button id="retryRaceBtn" class="btn-race">फिर से रेस करें</button>
-        <button id="toGarageModalBtn" class="btn-ghost">गैराज / शोरूम</button>
+        <button id="retryRaceBtn" class="btn-race">RACE AGAIN</button>
+        <button id="toGarageModalBtn" class="btn-ghost">BACK TO SHOWROOM</button>
       </div>
     </div>
   </section>
